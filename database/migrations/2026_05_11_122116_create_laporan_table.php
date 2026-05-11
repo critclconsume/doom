@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    public function up()
     {
         Schema::create('laporan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 100);
-            $table->string('telepon', 20);
+            $table->string('nama');
+            $table->string('telepon');
             $table->string('lokasi');
             $table->text('deskripsi');
             $table->string('foto')->nullable();
@@ -20,7 +20,7 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('laporan');
     }

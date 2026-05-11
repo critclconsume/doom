@@ -32,7 +32,7 @@
 
     {{-- Admin login button — shows only when not logged in --}}
     @guest
-      <a href="{{ route('login') }}" class="nav-admin-btn">
+      <a href="{{ route('admin.login') }}">Admin Login</a>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
           <polyline points="10 17 15 12 10 7"/>
