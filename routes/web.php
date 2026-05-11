@@ -18,9 +18,9 @@ Route::get('/panduan', [PageController::class, 'panduan'])->name('panduan');
 Route::get('/lapor',   [PageController::class, 'lapor'])  ->name('lapor');
 Route::post('/lapor',  [PageController::class, 'laporStore'])->name('lapor.store');
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+         return view('welcome');
+ });
 Route::get('/home/beranda', function () {
     return view('pages.beranda');
 })->name('beranda');
