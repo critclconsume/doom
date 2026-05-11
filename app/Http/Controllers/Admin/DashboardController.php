@@ -24,7 +24,7 @@ class DashboardController extends Controller
         // ── Recent laporan (latest 5) ─────────────────────────
         $recentLaporan = Laporan::latest()->take(5)->get();
 
-        return view('admin.admin', compact(
+        return view('admin.mod', compact(
             'totalFasilitas',
             'fasilitasBuka',
             'fasilitasRenovasi',
