@@ -12,19 +12,20 @@ use App\Http\Controllers\Admin\PengumumanController;
 | Public routes
 |--------------------------------------------------------------------------
 */
+
+// Admin Auth Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store']);
+    Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
+
 Route::get('/',        [PageController::class, 'beranda'])->name('beranda');
 Route::get('/proyek',  [PageController::class, 'proyek']) ->name('proyek');
 Route::get('/panduan', [PageController::class, 'panduan'])->name('panduan');
 Route::get('/lapor',   [PageController::class, 'lapor'])  ->name('lapor');
 Route::post('/lapor',  [PageController::class, 'laporStore'])->name('lapor.store');
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-    
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin');
-});
 
 Route::get('/', function () {
          return view('welcome');
@@ -49,21 +50,38 @@ Route::get('/admin', function () {
 |--------------------------------------------------------------------------
 | Admin routes — protected by auth middleware (Breeze/Jetstream)
 |--------------------------------------------------------------------------
+/*
+|--------------------------------------------------------------------------
+| Admin routes
+|--------------------------------------------------------------------------
 */
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
-    
-    // Dashboard
-    Route::get('/',          [DashboardController::class,  'index'])->name('dashboard');
+Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Laporan — read + status updates only (no create/edit, users submit those)
-    Route::get('/laporan',              [LaporanController::class, 'index'])       ->name('laporan.index');
-    Route::patch('/laporan/{laporan}',  [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+    // === PUBLIC LOGIN ROUTES (no middleware) ===
+    Route::get('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store']);
 
-    // Fasilitas — full CRUD
-    Route::resource('fasilitas', FasilitasController::class)->except(['show']);
+    // === PROTECTED ROUTES (only for logged in admin) ===
+    Route::middleware(['auth', 'verified'])->group(function () {
 
-        // Pengumuman — full CRUD
-    Route::resource('pengumuman', PengumumanController::class)->except(['show']);
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/admin/mod', function () {
+            return view('admin.mod');
+        })->name('admin');
+
+        // Laporan
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+        Route::patch('/laporan/{laporan}', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+
+        // Fasilitas
+        Route::resource('fasilitas', FasilitasController::class)->except(['show']);
+
+        // Pengumuman
+        Route::resource('pengumuman', PengumumanController::class)->except(['show']);
+
+        // Logout
+        Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    });
 });
-
 require __DIR__.'/auth.php';
