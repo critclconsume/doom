@@ -20,7 +20,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-Route::get('/',        [PageController::class, 'beranda'])->name('beranda');
+Route::get('/beranda', [PageController::class, 'beranda'])->name('beranda');
 Route::get('/proyek',  [PageController::class, 'proyek']) ->name('proyek');
 Route::get('/panduan', [PageController::class, 'panduan'])->name('panduan');
 Route::get('/lapor',   [PageController::class, 'lapor'])  ->name('lapor');
@@ -30,21 +30,6 @@ Route::post('/lapor',  [PageController::class, 'laporStore'])->name('lapor.store
 Route::get('/', function () {
          return view('welcome');
  });
-Route::get('/home/beranda', function () {
-    return view('pages.beranda');
-})->name('beranda');
-Route::get('/home/proyek', function () {
-    return view('pages.proyek');
-})->name('proyek');
-Route::get('/home/panduan', function () {
-    return view('pages.panduan');
-})->name('panduan');
-Route::get('/home/lapor', function () {
-    return view('pages.lapor');
-})->name('lapor');
-Route::get('/admin', function () {
-    return view('admin.mod');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -64,11 +49,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // === PROTECTED ROUTES (only for logged in admin) ===
     Route::middleware(['auth', 'verified'])->group(function () {
 
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+       Route::get('/', [DashboardController::class, 'index'])->name('beranda');
 
-        Route::get('/admin/mod', function () {
-            return view('admin.mod');
-        })->name('admin');
+//user page
+Route::get('/admin', function () {
+    return view('admin.mod');
+ })->name('admin');
+Route::get('/beranda', function () {
+    return view('pages.beranda');
+})->name('beranda');
+Route::get('/proyek', function () {
+    return view('pages.proyek');
+})->name('proyek');
+Route::get('/panduan', function () {
+    return view('pages.panduan');
+})->name('panduan');
+Route::get('/lapor', function () {
+    return view('pages.lapor');
+})->name('lapor');
+})->middleware(['auth', 'verified'])->name('admin');
 
         // Laporan
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
@@ -83,5 +82,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Logout
         Route::post('/logout', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])->name('logout');
     });
-});
 require __DIR__.'/auth.php';
