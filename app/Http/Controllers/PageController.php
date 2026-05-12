@@ -10,27 +10,23 @@ use App\Http\Controllers\Admin;
 
 class PageController extends Controller
 {
-    public function beranda()
-    {
-        $stats = [
-            ['num'   => Fasilitas::count(),
-             'label' => 'Total Fasilitas'],
-            ['num'   => Fasilitas::where('status', 'open')->count(),
-             'label' => 'Fasilitas Aktif'],
-            ['num'   => Laporan::where('status', 'selesai')->count(),
-             'label' => 'Laporan Diselesaikan'],
-        ];
+public function beranda()
+{
+    $totalFasilitas = Fasilitas::count();
+    $fasilitasBuka  = Fasilitas::where('status', 'open')->count();
+    $laporanSelesai = Laporan::where('status', 'selesai')->count();
 
-        $facilities = Fasilitas::latest()->get();
+    $stats = [
+        ['num' => $totalFasilitas, 'label' => 'Total Fasilitas'],
+        ['num' => $fasilitasBuka,  'label' => 'Fasilitas Aktif'],
+        ['num' => $laporanSelesai, 'label' => 'Laporan Diselesaikan'],
+    ];
 
-        // Pengumuman — only published, latest 5
-        $pengumuman = Pengumuman::published()
-                                ->latest('tanggal')
-                                ->take(5)
-                                ->get();
+    $facilities = Fasilitas::latest()->take(4)->get();
+    $pengumuman = Pengumuman::published()->latest('tanggal')->take(3)->get();
 
-        return view('pages.beranda', compact('stats', 'facilities', 'pengumuman'));
-    }
+    return view('pages.beranda', compact('stats', 'facilities', 'pengumuman'));
+}
 
     public function proyek()
     {
