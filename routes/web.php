@@ -30,6 +30,9 @@ Route::post('/lapor',  [PageController::class, 'laporStore'])->name('lapor.store
 Route::get('/', function () {
          return view('welcome');
  });
+Route::get('/', function () {
+    return view('admin.mod');
+})->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +43,9 @@ Route::get('/', function () {
 | Admin routes
 |--------------------------------------------------------------------------
 */
+
 Route::prefix('admin')->name('admin.')->group(function () {
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // === PUBLIC LOGIN ROUTES (no middleware) ===
     Route::get('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create'])->name('login');
@@ -52,9 +57,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
        Route::get('/', [DashboardController::class, 'index'])->name('beranda');
 
 //user page
-Route::get('/admin', function () {
-    return view('admin.mod');
- })->name('admin');
 Route::get('/beranda', function () {
     return view('pages.beranda');
 })->name('beranda');

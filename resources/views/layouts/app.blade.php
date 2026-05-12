@@ -1,28 +1,23 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <title>FasilitasKota — @yield('title', 'Dinas Pekerjaan Umum')</title>
 
-    <title>@yield('title', 'FasilitasKota - Dinas Pekerjaan Umum')</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Admin CSS (only loaded on admin pages later) -->
-@if(request()->is('admin/*'))
-    @vite(['resources/css/admin.css'])
-@endif
-
-    @vite(['resources/css/app.css', 'resources/css/style.css'])
+    @vite(['resources/css/style.css'])
+</head>
+<body>
 
     @include('layouts.navbar')
 
-    <main class="main">
+    <main>
         @yield('content')
     </main>
+
+    @include('layouts.footer')
 
 </body>
 </html>

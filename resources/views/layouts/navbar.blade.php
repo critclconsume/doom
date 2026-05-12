@@ -13,24 +13,25 @@
   </a>
 
   <div class="nav-links">
-    <a href="{{ route('beranda') }}"
+    <a href="{{ route('beranda') }}" 
        class="nav-link {{ request()->routeIs('beranda') ? 'active' : '' }}">
       Beranda
     </a>
-    <a href="{{ route('proyek') }}"
+    <a href="{{ route('proyek') }}" 
        class="nav-link {{ request()->routeIs('proyek') ? 'active' : '' }}">
       Proyek
     </a>
-    <a href="{{ route('panduan') }}"
+    <a href="{{ route('panduan') }}" 
        class="nav-link {{ request()->routeIs('panduan') ? 'active' : '' }}">
       Buku Panduan
     </a>
   </div>
+
   <div class="nav-right">
     <a href="{{ route('lapor') }}" class="nav-cta">Laporkan Masalah</a>
 
     @guest
-      <a href="{{ route('login') }}" class="nav-admin-btn">
+      <a href="{{ route('admin.login') }}" class="nav-admin-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
           <polyline points="10 17 15 12 10 7"/>
@@ -41,7 +42,7 @@
     @endguest
 
     @auth
-      <a href="{{ route('admin') }}" class="nav-admin-btn nav-admin-active">
+      <a href="{{ route('admin.') }}" class="nav-admin-btn nav-admin-active">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="3" width="7" height="7" rx="1"/>
           <rect x="14" y="3" width="7" height="7" rx="1"/>
@@ -52,3 +53,4 @@
       </a>
     @endauth
   </div>
+</nav>
