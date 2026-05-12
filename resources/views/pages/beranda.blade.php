@@ -13,10 +13,6 @@
   <h1>Fasilitas kota yang <span class="hero-accent">terbuka</span> untuk semua warga</h1>
   <p>Temukan informasi lengkap tentang fasilitas publik di kota Anda — jam operasional, kondisi terkini, dan proyek pembangunan yang sedang berjalan.</p>
   
-  <div class="hero-actions">
-    <a href="{{ route('lapor') }}" class="btn-primary">Laporkan Masalah</a>
-    <a href="{{ route('panduan') }}" class="btn-outline">Buku Panduan</a>
-  </div>
 </section>
 
 <!-- INFO STRIP -->
