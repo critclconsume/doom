@@ -30,7 +30,7 @@ Route::post('/lapor',  [PageController::class, 'laporStore'])->name('lapor.store
 Route::get('/', function () {
          return view('welcome');
  });
-Route::get('/', function () {
+Route::get('/admin', function () {
     return view('admin.mod');
 })->name('dashboard');
 
@@ -55,11 +55,15 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::middleware(['auth', 'verified'])->group(function () {
 
        Route::get('/', [DashboardController::class, 'index'])->name('beranda');
+       Route::get('/', [App\Http\Controllers\PageController::class, 'beranda'])->name('beranda');
+       // Public Routes
+Route::get('/lapor', [App\Http\Controllers\Admin\LaporanController::class, 'create'])->name('laporan.create');
+Route::post('/lapor', [App\Http\Controllers\Admin\LaporanController::class, 'store'])->name('laporan.store');
 
 //user page
 Route::get('/beranda', function () {
     return view('pages.beranda');
-})->name('beranda');
+})->name('main');
 Route::get('/proyek', function () {
     return view('pages.proyek');
 })->name('proyek');

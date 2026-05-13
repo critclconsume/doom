@@ -1,4 +1,4 @@
-// --<?php
+<?php
 // ── Placeholder data — replace with DB queries later ──
 $projects = [
     [

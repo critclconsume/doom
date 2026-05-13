@@ -512,3 +512,185 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
   background: var(--teal-50);
   color: var(--teal-800);
 }
+
+/* Lapor Page Styles */
+.lapor-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.lapor-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px 35px;
+}
+
+.lapor-card h1 {
+    text-align: center;
+    color: var(--teal-700);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.lapor-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--teal-600);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.1);
+}
+
+.file-input {
+    padding: 8px 0;
+}
+
+small {
+    display: block;
+    margin-top: 6px;
+    color: #666;
+    font-size: 14px;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-submit {
+    background: var(--teal-600);
+    color: white;
+    padding: 14px 40px;
+    font-size: 17px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-submit:hover {
+    background: var(--teal-700);
+    transform: translateY(-2px);
+}
+
+.required { color: #e74c3c; }
+.optional { color: #777; font-weight: normal; }
+
+/* ==================== LOGIN PAGE ==================== */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9f5f0 100%);
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    padding: 45px 40px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.login-header h1 {
+    color: var(--teal-700);
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.login-header p {
+    color: #666;
+    font-size: 15px;
+}
+
+.login-card .form-group {
+    margin-bottom: 24px;
+}
+
+.login-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.login-card input:focus {
+    border-color: var(--teal-600);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(29, 158, 117, 0.15);
+}
+
+.btn-login {
+    width: 100%;
+    background: var(--teal-600);
+    color: white;
+    padding: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-login:hover {
+    background: var(--teal-700);
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 35px 25px;
+    }
+}

@@ -11,14 +11,9 @@ class Laporan extends Model
 
     protected $table = 'laporan';
 
-    protected $fillable = [
-        'nama',
-        'telepon',
-        'lokasi',
-        'deskripsi',
-        'foto',
-        'status',   // 'menunggu' | 'diterima' | 'selesai'
-    ];
+protected $fillable = [
+    'nama', 'telepon', 'email', 'lokasi', 'deskripsi', 'keterangan', 'foto', 'status'
+];
 
     // Default status when a new report is submitted
     protected $attributes = [

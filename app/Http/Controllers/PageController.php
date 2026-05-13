@@ -10,24 +10,43 @@ use App\Http\Controllers\Admin;
 
 class PageController extends Controller
 {
+
 public function beranda()
 {
-    $totalFasilitas = Fasilitas::count();
-    $fasilitasBuka  = Fasilitas::where('status', 'open')->count();
-    $laporanSelesai = Laporan::where('status', 'selesai')->count();
+    $totalFasilitas = \App\Models\Fasilitas::count();
+    $fasilitasBuka = \App\Models\Fasilitas::where('status', 'open')->count();
+    $fasilitasRenovasi = \App\Models\Fasilitas::where('status', 'maintenance')->count();
 
-    $stats = [
-        ['num' => $totalFasilitas, 'label' => 'Total Fasilitas'],
-        ['num' => $fasilitasBuka,  'label' => 'Fasilitas Aktif'],
-        ['num' => $laporanSelesai, 'label' => 'Laporan Diselesaikan'],
-    ];
+    $totalLaporan = \App\Models\Laporan::count();
+    $laporanMenunggu = \App\Models\Laporan::where('status', 'menunggu')->count();
+    $laporanDiterima = \App\Models\Laporan::where('status', 'diterima')->count();
+    $laporanSelesai = \App\Models\Laporan::where('status', 'selesai')->count();
 
-    $facilities = Fasilitas::latest()->take(4)->get();
-    $pengumuman = Pengumuman::published()->latest('tanggal')->take(3)->get();
+    $recentLaporan = \App\Models\Laporan::latest()->take(5)->get();
 
-    return view('pages.beranda', compact('stats', 'facilities', 'pengumuman'));
+    $facilities = \App\Models\Fasilitas::where('status', 'open')
+                    ->latest()
+                    ->take(8)
+                    ->get();
+
+    $pengumuman = \App\Models\Pengumuman::published()
+        ->latest('tanggal')
+        ->take(5)
+        ->get();
+
+    return view('pages.beranda', compact(
+        'totalFasilitas', 
+        'fasilitasBuka', 
+        'fasilitasRenovasi',
+        'totalLaporan', 
+        'laporanMenunggu', 
+        'laporanDiterima', 
+        'laporanSelesai',
+        'recentLaporan',
+        'facilities',  
+        'pengumuman'
+    ));
 }
-
     public function proyek()
     {
         $projects = [
@@ -53,39 +72,40 @@ public function beranda()
         return view('pages.lapor', compact('fasilitasOptions'));
     }
 
-    public function laporStore(Request $request)
-    {
-        $validated = $request->validate([
-            'nama'      => 'required|string|max:100',
-            'telepon'   => 'required|string|max:20',
-            'lokasi'    => 'required|string',
-            'deskripsi' => 'required|string|max:2000',
-            'foto'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-        ], [
-            'nama.required'      => 'Nama wajib diisi.',
-            'telepon.required'   => 'Nomor telepon wajib diisi.',
-            'lokasi.required'    => 'Pilih fasilitas atau lokasi.',
-            'deskripsi.required' => 'Deskripsi masalah wajib diisi.',
-            'foto.image'         => 'File harus berupa gambar.',
-            'foto.max'           => 'Ukuran foto maksimal 5 MB.',
-        ]);
+public function laporStore(Request $request)
+{
+    $validated = $request->validate([
+        'nama'        => 'required|string|max:255',
+        'telepon'     => 'required|string|max:20',
+        'email'       => 'required|email|max:255',
+        'lokasi'      => 'required|string|max:255',
+        'deskripsi'   => 'required|string',
+        'keterangan'  => 'nullable|string',
+        'foto'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
 
-        $fotoPath = null;
-        if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('laporan', 'public');
-        }
+    $data = [
+        'nama'        => $validated['nama'],
+        'telepon'     => $validated['telepon'],
+        'email'       => $validated['email'],
+        'lokasi'      => $validated['lokasi'],
+        'deskripsi'   => $validated['deskripsi'],
+        'keterangan'  => $validated['keterangan'] ?? null,
+        'status'      => 'menunggu',
+    ];
 
-        Laporan::create([
-            'nama'      => $validated['nama'],
-            'telepon'   => $validated['telepon'],
-            'lokasi'    => $validated['lokasi'],
-            'deskripsi' => $validated['deskripsi'],
-            'foto'      => $fotoPath,
-            'status'    => 'menunggu',
-        ]);
-
-        return redirect()->route('lapor')->with('success', true);
+    // Photo Upload
+    if ($request->hasFile('foto')) {
+        $filename = time() . '_' . $request->file('foto')->getClientOriginalName();
+        $request->file('foto')->storeAs('public/laporan', $filename);
+        $data['foto'] = 'laporan/' . $filename;
     }
+
+    \App\Models\Laporan::create($data);
+
+    return redirect()->route('beranda')
+                     ->with('success', 'Laporan berhasil dikirim. Terima kasih atas partisipasinya!');
+}
 
     public function panduan()
     {

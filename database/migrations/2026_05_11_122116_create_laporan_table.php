@@ -12,8 +12,10 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('telepon');
+            $table->string('email')->nullable();
             $table->string('lokasi');
             $table->text('deskripsi');
+            $table->text('keterangan')->nullable();
             $table->string('foto')->nullable();
             $table->enum('status', ['menunggu', 'diterima', 'selesai'])->default('menunggu');
             $table->timestamps();
