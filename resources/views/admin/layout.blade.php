@@ -1,15 +1,13 @@
-v<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Admin — @yield('title', 'FasilitasKota')</title>
- @vite(['css/style.css'])
-  @vite(['css/admin.css'])
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Admin - FasilitasKota')</title>
+    
+    @vite(['resources/css/app.css', 'resources/css/admin.css'])   <!-- if using Vite -->
 </head>
 <body class="admin-body">
-
   <aside class="sidebar">
     <div class="sidebar-brand">
       <div class="sidebar-brand-icon">
@@ -27,7 +25,7 @@ v<!DOCTYPE html>
     <nav class="sidebar-nav">
       <div class="sidebar-section-label">Menu</div>
 
-      <a href="{{ route('admin.mod') }}"
+      <a href="{{ route('admin.') }}"
          class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <rect x="3" y="3" width="7" height="7" rx="1"/>

@@ -13,23 +13,23 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
+public function store(Request $request)
+{
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
         ]);
-
-        if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-            return back()->withErrors([
-                'email' => 'Email atau password salah.',
-            ]);
-        }
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(route('admin.dashboard'));
     }
+
+    $request->session()->regenerate();
+
+    return redirect()->intended(route('admin.dashboard'));  
+}
 
     public function destroy(Request $request)
     {
