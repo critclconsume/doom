@@ -6,7 +6,7 @@
 {{-- FILTER TABS --}}
 <div class="filter-tabs">
   @foreach(['semua' => 'Semua', 'menunggu' => 'Menunggu', 'diterima' => 'Diterima', 'selesai' => 'Selesai'] as $val => $label)
-  <a href="{{ route('admin.laporan.lain', ['status' => $val]) }}"
+  <a href="{{ route('admin.laporan.index', ['status' => $val]) }}"
      class="filter-tab {{ request('status', 'semua') === $val ? 'active' : '' }}">
     {{ $label }}
     @if($val !== 'semua')

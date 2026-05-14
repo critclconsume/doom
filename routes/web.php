@@ -36,6 +36,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
          ->parameters([
              'fasilitas' => 'fasilitas'  
          ]);
+    Route::get('/fasilitas', FasilitasController::class, 'index')->name('fasilitas.index');
+    Route::patch('/fasilitas/create', FasilitasController::class, 'create')->name('fasilitas.create');
+    Route::post('/fasilitas/store', FasilitasController::class, 'store')->name('fasilitas.store');
+    Route::post('/fasilitas/edit', FasilitasController::class, 'edit')->name('fasilitas.edit');
+    Route::post('/fasilitas/update', FasilitasController::class, 'update')->name('fasilitas.update');
+    Route::post('/fasilitas/destroy', FasilitasController::class, 'destroy')->name('fasilitas.destroy');
 });
     // Login Routes (Public)
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
