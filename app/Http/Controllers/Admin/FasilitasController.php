@@ -11,7 +11,7 @@ class FasilitasController extends Controller
     public function index()
     {
         $fasilitas = Fasilitas::latest()->paginate(10);
-        return view('admin.fasilitas.main', compact('fasilitas'));
+        return view('admin.fasilitas.fain', compact('fasilitas'));
     }
 
     public function create()
@@ -41,7 +41,7 @@ class FasilitasController extends Controller
 
         Fasilitas::create($validated);
 
-        return redirect()->route('admin.fasilitas.main')
+        return redirect()->route('admin.fasilitas.index')
                          ->with('success', 'Fasilitas berhasil ditambahkan.');
     }
 
@@ -77,7 +77,7 @@ class FasilitasController extends Controller
 
         $fasilitas->update($validated);
 
-        return redirect()->route('admin.fasilitas.main')
+        return redirect()->route('admin.fasilitas.index')
                          ->with('success', 'Fasilitas berhasil diperbarui.');
     }
 
@@ -90,7 +90,7 @@ class FasilitasController extends Controller
 
         $fasilitas->delete();
 
-        return redirect()->route('admin.fasilitas.main')
+        return redirect()->route('admin.fasilitas.index')
                          ->with('success', 'Fasilitas berhasil dihapus.');
     }
 }

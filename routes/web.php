@@ -32,16 +32,10 @@ Route::post('/lapor', [PageController::class, 'laporStore'])->name('lapor.store'
 */
 // Admin Fasilitas Routes
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::resource('fasilitas', \App\Http\Controllers\Admin\FasilitasController::class)
-        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
-        ->names([
-            'index'   => 'admin.fasilitas.main',   
-            'create'  => 'admin.fasilitas.create',
-            'store'   => 'admin.fasilitas.store',
-            'edit'    => 'admin.fasilitas.edit',
-            'update'  => 'admin.fasilitas.update',
-            'destroy' => 'admin.fasilitas.destroy',
-        ]);
+    Route::resource('fasilitas', Admin\FasilitasController::class)
+         ->parameters([
+             'fasilitas' => 'fasilitas'  
+         ]);
 });
     // Login Routes (Public)
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
