@@ -11,7 +11,7 @@ class PengumumanController extends Controller
     public function index()
     {
         $pengumuman = Pengumuman::latest('tanggal')->paginate(15);
-        return view('admin.pengumuman.index', compact('pengumuman'));
+        return view('admin.pengumuman.pain', compact('pengumuman'));
     }
 
     public function create()
@@ -36,7 +36,7 @@ class PengumumanController extends Controller
 
         Pengumuman::create($validated);
 
-        return redirect()->route('admin.pengumuman.index')
+        return redirect()->route('admin.pengumuman.pain')
                          ->with('success', "Pengumuman \"{$validated['judul']}\" berhasil ditambahkan.");
     }
 

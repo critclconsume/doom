@@ -25,7 +25,7 @@
     <nav class="sidebar-nav">
       <div class="sidebar-section-label">Menu</div>
 
-      <a href="{{ route('admin.') }}"
+      <a href="{{ route('admin.fasilitas.index') }}"
          class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <rect x="3" y="3" width="7" height="7" rx="1"/>

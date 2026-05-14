@@ -58,6 +58,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         // Laporan Admin
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::patch('/laporan/{laporan}', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+        Route::resource('laporan', \App\Http\Controllers\Admin\LaporanController::class)
+         ->only(['index', 'show', 'destroy']);
+    
+    Route::patch('laporan/{laporan}/status', [App\Http\Controllers\Admin\LaporanController::class, 'updateStatus'])
+         ->name('admin.laporan.status');
 
         // Fasilitas
         Route::resource('fasilitas', FasilitasController::class)->except(['show']);
