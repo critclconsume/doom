@@ -5,7 +5,7 @@
 
 <div class="admin-section-header" style="margin-bottom: 18px;">
   <div class="admin-section-title">Daftar pengumuman</div>
-  <a href="{{ route('admin.pengumuman.create') }}" class="btn-primary">+ Tambah Pengumuman</a>
+  <a href="{{ route('admin.pengumuman.index') }}" class="btn-primary">+ Tambah Pengumuman</a>
 </div>
 
 @if($pengumuman->isEmpty())
