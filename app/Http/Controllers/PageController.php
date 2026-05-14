@@ -2,60 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Fasilitas;
 use App\Models\Laporan;
 use App\Models\Pengumuman;
-use App\Http\Controllers\Admin;
+use App\Models\Proyek;           // ← This must exist
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+    public function beranda()
+    {
+        // Real-time stats from database
+        $totalFasilitas = Fasilitas::count();
+        $fasilitasBuka = Fasilitas::where('status', 'open')->count();
+        $fasilitasRenovasi = Fasilitas::where('status', 'maintenance')->count();
 
-public function beranda()
-{
-    $totalFasilitas = \App\Models\Fasilitas::count();
-    $fasilitasBuka = \App\Models\Fasilitas::where('status', 'open')->count();
-    $fasilitasRenovasi = \App\Models\Fasilitas::where('status', 'maintenance')->count();
+        $totalLaporan = Laporan::count();
+        $laporanMenunggu = Laporan::where('status', 'menunggu')->count();
+        $laporanDiterima = Laporan::where('status', 'diterima')->count();
+        $laporanSelesai = Laporan::where('status', 'selesai')->count();
 
-    $totalLaporan = \App\Models\Laporan::count();
-    $laporanMenunggu = \App\Models\Laporan::where('status', 'menunggu')->count();
-    $laporanDiterima = \App\Models\Laporan::where('status', 'diterima')->count();
-    $laporanSelesai = \App\Models\Laporan::where('status', 'selesai')->count();
+        $recentLaporan = Laporan::latest()->take(5)->get();
 
-    $recentLaporan = \App\Models\Laporan::latest()->take(5)->get();
+        $facilities = Fasilitas::where('status', 'open')
+                        ->latest()
+                        ->take(8)
+                        ->get();
 
-    $facilities = \App\Models\Fasilitas::where('status', 'open')
-                    ->latest()
-                    ->take(8)
-                    ->get();
+        $pengumuman = Pengumuman::published()
+            ->latest('tanggal')
+            ->take(5)
+            ->get();
 
-    $pengumuman = \App\Models\Pengumuman::published()
-        ->latest('tanggal')
-        ->take(5)
-        ->get();
+        // Proyek Stats
+        $totalProyek = Proyek::count();
+        $proyekBerlangsung = Proyek::where('status', 'berlangsung')->count();
+        $proyekSelesai = Proyek::where('status', 'selesai')->count();
+        $proyekTerbaru = Proyek::latest()->take(4)->get();
 
-    return view('pages.beranda', compact(
-        'totalFasilitas', 
-        'fasilitasBuka', 
-        'fasilitasRenovasi',
-        'totalLaporan', 
-        'laporanMenunggu', 
-        'laporanDiterima', 
-        'laporanSelesai',
-        'recentLaporan',
-        'facilities',  
-        'pengumuman'
-    ));
-}
+        // Stats untuk info-strip
+        $stats = [
+            ['num' => $totalFasilitas, 'label' => 'Fasilitas'],
+            ['num' => $totalProyek,    'label' => 'Proyek'],
+            ['num' => $pengumuman->count(), 'label' => 'Pengumuman'],
+        ];
+
+        return view('pages.beranda', compact(
+            'totalFasilitas', 'fasilitasBuka', 'fasilitasRenovasi',
+            'totalLaporan', 'laporanMenunggu', 'laporanDiterima', 'laporanSelesai',
+            'recentLaporan',
+            'facilities', 'pengumuman',
+            'stats',
+            'proyekTerbaru', 'totalProyek', 'proyekBerlangsung', 'proyekSelesai'
+        ));
+    }
+
     public function proyek()
     {
-        $projects = [
-            ['name' => 'Renovasi Stadion Kota',  'desc' => 'Peningkatan kapasitas tribun dan fasilitas penonton',  'status' => 'berlangsung'],
-            ['name' => 'Pelebaran Jalan Utama',  'desc' => 'Jl. Sudirman — penambahan jalur sepeda dan trotoar',   'status' => 'berlangsung'],
-            ['name' => 'Pembangunan Taman Baru', 'desc' => 'Area hijau baru di kawasan Kecamatan Timur',           'status' => 'perencanaan'],
-            ['name' => 'Perbaikan Drainase Kota','desc' => 'Saluran air di pusat kota — selesai 2024',             'status' => 'selesai'],
-            ['name' => 'Gedung Serbaguna',       'desc' => 'Pusat kegiatan warga RT/RW — selesai 2023',            'status' => 'selesai'],
-        ];
+        $proyek = Proyek::latest()->paginate(9);
 
         $statusMap = [
             'berlangsung' => ['dot' => '#1D9E75', 'class' => 'badge-berlangsung', 'label' => 'Berlangsung'],
@@ -63,8 +67,10 @@ public function beranda()
             'selesai'     => ['dot' => '#888780', 'class' => 'badge-selesai',     'label' => 'Selesai'],
         ];
 
-        return view('pages.proyek', compact('projects', 'statusMap'));
+        return view('pages.proyek', compact('proyek', 'statusMap'));
     }
+
+    // (rest methods remain the same)
 
     public function lapor()
     {

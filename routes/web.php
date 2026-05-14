@@ -30,7 +30,12 @@ Route::post('/lapor', [PageController::class, 'laporStore'])->name('lapor.store'
 | Admin Authentication Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::resource('fasilitas', Admin\FasilitasController::class)
+         ->parameters([
+             'fasilitas' => 'fasilitas'  
+         ]);
+
 
     // Login Routes (Public)
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');

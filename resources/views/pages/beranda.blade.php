@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('title', 'Beranda')
-
 @section('content')
 
 <!-- HERO -->
@@ -12,54 +10,51 @@
   </div>
   <h1>Fasilitas kota yang <span class="hero-accent">terbuka</span> untuk semua warga</h1>
   <p>Temukan informasi lengkap tentang fasilitas publik di kota Anda — jam operasional, kondisi terkini, dan proyek pembangunan yang sedang berjalan.</p>
-  
 </section>
 
-<!-- INFO STRIP -->
+<!-- INFO STRIP (real stats from DB) -->
 <div class="info-strip">
+  @foreach ($stats as $s)
   <div class="info-strip-item">
-    <div class="info-num">48</div>
-    <div class="info-label">Total Fasilitas</div>
+    <div class="info-num">{{ $s['num'] }}</div>
+    <div class="info-label">{{ $s['label'] }}</div>
   </div>
-  <div class="info-strip-item">
-    <div class="info-num">12</div>
-    <div class="info-label">Proyek Aktif</div>
-  </div>
-  <div class="info-strip-item">
-    <div class="info-num">230</div>
-    <div class="info-label">Laporan Diselesaikan</div>
-  </div>
+  @endforeach
 </div>
 
-<!-- MAIN SECTION -->
+<!-- FACILITIES -->
 <div class="section">
   <div class="section-header">
     <div class="section-title">Fasilitas publik</div>
   </div>
 
+  @if($facilities->isEmpty())
+    <p style="font-size:13px; color:var(--text-muted);">Belum ada fasilitas yang ditambahkan.</p>
+  @else
   <div class="fac-grid">
     @foreach ($facilities as $f)
     <div class="fac-card">
       <div class="fac-photo">
-        @if (!empty($f['photo']))
-          <img src="{{ asset($f['photo']) }}" alt="{{ $f['name'] }}">
+        @if($f->photo && file_exists(public_path('images/fasilitas/' . $f->photo)))
+          <img src="{{ asset('images/fasilitas/' . $f->photo) }}" alt="{{ $f->name }}">
         @else
-          <div class="fac-photo-placeholder">{{ $f['name'] }}</div>
+          <div class="fac-photo-placeholder">{{ $f->name }}</div>
         @endif
       </div>
       <div class="fac-body">
-        <div class="fac-name">{{ $f['name'] }}</div>
-        <div class="fac-addr">{{ $f['addr'] }}</div>
+        <div class="fac-name">{{ $f->name }}</div>
+        <div class="fac-addr">{{ $f->address }}</div>
         <div class="fac-footer">
-          <span class="tag {{ $f['status'] === 'open' ? 'tag-open' : 'tag-maint' }}">
-            {{ $f['status'] === 'open' ? 'Buka' : 'Renovasi' }}
+          <span class="tag {{ $f->status === 'open' ? 'tag-open' : 'tag-maint' }}">
+            {{ $f->status === 'open' ? 'Buka' : 'Renovasi' }}
           </span>
-          <span class="fac-type">{{ $f['type'] }}</span>
+          <span class="fac-type">{{ $f->type }}</span>
         </div>
       </div>
     </div>
     @endforeach
   </div>
+  @endif
 
   <hr class="divider">
 
@@ -68,20 +63,24 @@
     <div class="section-title">Pengumuman terbaru</div>
   </div>
 
+  @if($pengumuman->isEmpty())
+    <p style="font-size:13px; color:var(--text-muted);">Belum ada pengumuman.</p>
+  @else
   <div class="news-list">
     @foreach ($pengumuman as $p)
     <div class="news-item">
       <div class="news-date-block">
-        <div class="news-date-day">{{ $p['tanggal'] }}</div>
-        <div class="news-date-mon">{{ $p['month'] }}</div>
+        <div class="news-date-day">{{ $p->tanggal->format('d') }}</div>
+        <div class="news-date-mon">{{ $p->tanggal->translatedFormat('M') }}</div>
       </div>
       <div class="news-body">
-        <h4>{{ $p['title'] }}</h4>
-        <p>{{ $p['body'] }}</p>
+        <h4>{{ $p->judul }}</h4>
+        <p>{{ Str::limit($p->isi, 100) }}</p>
       </div>
     </div>
     @endforeach
   </div>
+  @endif
 </div>
 
 @endsection
