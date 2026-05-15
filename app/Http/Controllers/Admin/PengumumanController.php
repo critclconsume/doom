@@ -36,7 +36,7 @@ class PengumumanController extends Controller
 
         Pengumuman::create($validated);
 
-        return redirect()->route('admin.pengumuman.pain')
+        return redirect()->route('admin.pengumuman.index')
                          ->with('success', "Pengumuman \"{$validated['judul']}\" berhasil ditambahkan.");
     }
 
@@ -58,7 +58,7 @@ class PengumumanController extends Controller
 
         $pengumuman->update($validated);
 
-        return redirect()->route('admin.pengumuman.index')
+        return redirect()->route('admin.pengumuman.pain')
                          ->with('success', "Pengumuman \"{$pengumuman->judul}\" berhasil diperbarui.");
     }
 

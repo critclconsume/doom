@@ -26,7 +26,7 @@
     <nav class="sidebar-nav">
       <div class="sidebar-section-label">Menu</div>
 
-      <a href="{{ route('admin.dashboard') }}"
+      <a href="{{ route('admin.') }}"
          class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
@@ -35,7 +35,7 @@
         Dashboard
       </a>
 
-      <a href="{{ route('admin.laporan.index') }}"
+      <a href="{{ route('admin.laporan.lain') }}"
          class="sidebar-link {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
