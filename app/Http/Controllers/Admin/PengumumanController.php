@@ -25,7 +25,7 @@ class PengumumanController extends Controller
             'judul'        => 'required|string|max:200',
             'isi'          => 'required|string',
             'tanggal'      => 'required|date',
-            'is_published' => 'nullable|boolean',
+            'is_published' => 'nullable',
         ], [
             'judul.required'   => 'Judul pengumuman wajib diisi.',
             'isi.required'     => 'Isi pengumuman wajib diisi.',
@@ -51,7 +51,11 @@ class PengumumanController extends Controller
             'judul'        => 'required|string|max:200',
             'isi'          => 'required|string',
             'tanggal'      => 'required|date',
-            'is_published' => 'nullable|boolean',
+            'is_published' => 'nullable',
+        ], [
+            'judul.required'   => 'Judul pengumuman wajib diisi.',
+            'isi.required'     => 'Isi pengumuman wajib diisi.',
+            'tanggal.required' => 'Tanggal wajib diisi.',
         ]);
 
         $validated['is_published'] = $request->has('is_published');

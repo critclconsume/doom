@@ -3,13 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Pengumuman extends Model
 {
-    protected $table = 'pengumuman';   
+    protected $table = 'pengumuman';
 
     protected $fillable = [
-        'judul', 'isi', 'tanggal', 'is_published',
+        'judul',
+        'isi',
+        'tanggal',
+        'is_published',
     ];
 
     protected $casts = [
@@ -17,6 +21,7 @@ class Pengumuman extends Model
         'is_published' => 'boolean',
     ];
 
+    // Scope used on beranda page
     public function scopePublished($query)
     {
         return $query->where('is_published', true);
