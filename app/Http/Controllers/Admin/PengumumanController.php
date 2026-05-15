@@ -58,7 +58,7 @@ class PengumumanController extends Controller
 
         $pengumuman->update($validated);
 
-        return redirect()->route('admin.pengumuman.pain')
+        return redirect()->route('admin.pengumuman.index')
                          ->with('success', "Pengumuman \"{$pengumuman->judul}\" berhasil diperbarui.");
     }
 

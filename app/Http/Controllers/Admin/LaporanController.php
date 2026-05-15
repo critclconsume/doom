@@ -10,24 +10,33 @@ class LaporanController extends Controller
 {
     public function index()
     {
-        $laporan = Laporan::latest()->paginate(15);
-        return view('admin.laporan.lain', compact('laporan'));
-    }
+        $status = request('status', 'semua');
 
-    public function show(Laporan $laporan)
-    {
-        return view('admin.laporan.lain', compact('laporan'));
+        $query = Laporan::latest();
+        if ($status !== 'semua') {
+            $query->where('status', $status);
+        }
+
+        $laporan = $query->paginate(15);
+
+        $counts = [
+            'menunggu' => Laporan::where('status', 'menunggu')->count(),
+            'diterima' => Laporan::where('status', 'diterima')->count(),
+            'selesai'  => Laporan::where('status', 'selesai')->count(),
+        ];
+
+        return view('admin.laporan.lain', compact('laporan', 'counts'));
     }
 
     public function updateStatus(Request $request, Laporan $laporan)
     {
-        $validated = $request->validate([
-            'status' => 'required|in:menunggu,diterima,selesai'
+        $request->validate([
+            'status' => 'required|in:menunggu,diterima,selesai',
         ]);
 
-        $laporan->update(['status' => $validated['status']]);
+        $laporan->update(['status' => $request->status]);
 
-        return redirect()->route('admin.laporan.lain')
+        return redirect()->route('admin.laporan.index')
                          ->with('success', 'Status laporan berhasil diperbarui.');
     }
 

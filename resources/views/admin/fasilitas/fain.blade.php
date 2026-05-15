@@ -1,89 +1,88 @@
-@extends('layouts.app')
+
+@vite(['resources/css/style.css', 'resources/css/admin.css'])
+
+@extends('admin.layout')
 @section('title', 'Daftar Fasilitas')
 
 @section('content')
-<div class="admin-header">
-    <h1>Daftar Fasilitas</h1>
-    <a href="{{ route('admin.fasilitas.create') }}" class="btn-primary">
-        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Tambah Fasilitas Baru
-    </a>
+
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+  <div class="admin-section-title">Daftar fasilitas</div>
+  <a href="{{ route('admin.fasilitas.create') }}" class="btn-action btn-diterima" style="font-size:13px; padding:8px 16px;">
+    + Tambah Fasilitas
+  </a>
 </div>
 
-@if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-@endif
+@if($fasilitas->isEmpty())
+  <div class="empty-state">
+    Belum ada fasilitas. <a href="{{ route('admin.fasilitas.create') }}">Tambah sekarang</a>.
+  </div>
+@else
 
-@if (session('error'))
-    <div class="alert alert-error">{{ session('error') }}</div>
-@endif
+<div class="fac-admin-grid">
+  @foreach($fasilitas as $f)
+  <div class="fac-admin-card">
 
-<div class="card">
-    <div class="table-responsive">
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Foto</th>
-                    <th>Nama Fasilitas</th>
-                    <th>Alamat</th>
-                    <th>Tipe</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($fasilitas as $f)
-                <tr>
-                    <td>
-                        @if($f->photo && file_exists(public_path('images/fasilitas/' . $f->photo)))
-                            <img src="{{ asset('images/fasilitas/' . $f->photo) }}" 
-                                 alt="{{ $f->name }}" 
-                                 class="table-photo">
-                        @else
-                            <div class="table-photo-placeholder">No Photo</div>
-                        @endif
-                    </td>
-                    <td><strong>{{ $f->name }}</strong></td>
-                    <td>{{ $f->address }}</td>
-                    <td>{{ $f->type }}</td>
-                    <td>
-                        <span class="badge {{ $f->status === 'open' ? 'badge-open' : 'badge-maintenance' }}">
-                            {{ $f->status === 'open' ? 'Buka' : 'Renovasi/Maintenance' }}
-                        </span>
-                    </td>
-                    <td class="action-buttons">
-                        <a href="{{ route('admin.fasilitas.edit', $f) }}" class="btn-edit">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 5.732z" />
-                            </svg>
-                            Edit
-                        </a>
-                        
-                        <form action="{{ route('admin.fasilitas.destroy', $f) }}" method="POST" style="display:inline;" 
-                              onsubmit="return confirm('Yakin ingin menghapus fasilitas ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-delete">
-                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.595 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.595-1.858L5 7m5 4v6m4-6v6m1-10V9a1 1 0 00-1 1v1M12 4v6m2-6v6" />
-                                </svg>
-                                Hapus
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="6" style="text-align:center; padding:30px;">
-                        Belum ada data fasilitas.
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+    {{-- PHOTO --}}
+    <div class="fac-admin-photo">
+      @if($f->photo && file_exists(public_path('images/fasilitas/' . $f->photo)))
+        <img src="{{ asset('images/fasilitas/' . $f->photo) }}" alt="{{ $f->name }}">
+      @else
+        <div class="fac-photo-placeholder">{{ strtoupper(substr($f->name, 0, 1)) }}</div>
+      @endif
     </div>
+
+    {{-- BODY --}}
+    <div class="fac-admin-body">
+      <div class="fac-admin-top">
+        <div>
+          <div class="fac-name">{{ $f->name }}</div>
+          <div class="fac-addr">{{ $f->address }}</div>
+        </div>
+        <span class="tag {{ $f->status === 'open' ? 'tag-open' : 'tag-maint' }}">
+          {{ $f->status === 'open' ? 'Buka' : 'Renovasi' }}
+        </span>
+      </div>
+
+      <div class="fac-info-chips">
+        <span class="fac-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          {{ $f->type }}
+        </span>
+        <span class="fac-chip">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ $f->created_at->format('d M Y') }}
+        </span>
+      </div>
+    </div>
+
+    {{-- ACTIONS --}}
+    <div class="fac-admin-actions">
+      <a href="{{ route('admin.fasilitas.edit', $f->id) }}"
+         class="btn-action btn-edit" style="flex:1; text-align:center;">Edit</a>
+      <form action="{{ route('admin.fasilitas.destroy', $f->id) }}" method="POST"
+            onsubmit="return confirm('Hapus fasilitas {{ addslashes($f->name) }}?')">
+        @csrf @method('DELETE')
+        <button type="submit" class="btn-action btn-delete">Hapus</button>
+      </form>
+    </div>
+
+  </div>
+  @endforeach
 </div>
+
+<div class="pagination-wrap">
+  {{ $fasilitas->links() }}
+</div>
+
+@endif
 
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\FasilitasController;
 use App\Http\Controllers\Admin\PengumumanController;
+use App\Http\Controllers\Admin\ProyekController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
@@ -60,6 +61,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Pengumuman
         Route::resource('pengumuman', PengumumanController::class)->except(['show']);
+
+        // Proyek
+        Route::resource('proyek', ProyekController::class)->except(['show']);
 
         // Logout
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

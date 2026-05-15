@@ -35,7 +35,7 @@
         Dashboard
       </a>
 
-      <a href="{{ route('admin.laporan.lain') }}"
+      <a href="{{ route('admin.laporan.index') }}"
          class="sidebar-link {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
@@ -80,7 +80,7 @@
           <div class="sidebar-user-role">Administrator</div>
         </div>
       </div>
-      <form method="POST" action="{{ route('logout') }}">
+      <form method="POST" action="{{ route('admin.logout') }}">
         @csrf
         <button type="submit" class="sidebar-logout">Keluar</button>
       </form>

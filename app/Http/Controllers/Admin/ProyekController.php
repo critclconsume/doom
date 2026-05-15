@@ -3,63 +3,67 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Proyek;
 use Illuminate\Http\Request;
 
 class ProyekController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $proyek = Proyek::latest()->paginate(15);
+        return view('admin.proyek.prain', compact('proyek'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.proyek.form');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama'            => 'required|string|max:255',
+            'deskripsi'       => 'required|string',
+            'lokasi'          => 'required|string|max:255',
+            'status'          => 'required|in:berlangsung,perencanaan,selesai',
+            'tanggal_mulai'   => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+        ]);
+
+        Proyek::create($validated);
+
+        return redirect()->route('admin.proyek.index')
+                         ->with('success', "Proyek \"{$validated['nama']}\" berhasil ditambahkan.");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Proyek $proyek)
     {
-        //
+        return view('admin.proyek.form', compact('proyek'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Proyek $proyek)
     {
-        //
+        $validated = $request->validate([
+            'nama'            => 'required|string|max:255',
+            'deskripsi'       => 'required|string',
+            'lokasi'          => 'required|string|max:255',
+            'status'          => 'required|in:berlangsung,perencanaan,selesai',
+            'tanggal_mulai'   => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+        ]);
+
+        $proyek->update($validated);
+
+        return redirect()->route('admin.proyek.index')
+                         ->with('success', "Proyek \"{$proyek->nama}\" berhasil diperbarui.");
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Proyek $proyek)
     {
-        //
-    }
+        $nama = $proyek->nama;
+        $proyek->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('admin.proyek.index')
+                         ->with('success', "Proyek \"{$nama}\" berhasil dihapus.");
     }
 }

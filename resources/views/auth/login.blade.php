@@ -12,7 +12,7 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+       <form method="POST" action="{{ route('admin.login') }}">
             @csrf   <!-- ← This is very important -->
 
             <div class="form-group">
@@ -24,6 +24,13 @@
                 <label>Password</label>
                 <input type="password" name="password" required>
             </div>
+
+
+            @if ($errors->any())
+             <div style="background:#FCEBEB; border:0.5px solid #F7C1C1; border-radius:8px; padding:10px 14px; margin-bottom:16px; font-size:13px; color:#791F1F;">
+               {{ $errors->first('email') }}
+         </div>
+     @endif
 
             <button type="submit" class="btn-login">Masuk</button>
         </form>
