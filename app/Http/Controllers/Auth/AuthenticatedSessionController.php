@@ -28,7 +28,7 @@ public function store(Request $request)
 
     $request->session()->regenerate();
 
-    return redirect()->intended(route('admin.mod'));  
+    return redirect()->intended(route('admin.dashboard'));  
 }
 
     public function destroy(Request $request)

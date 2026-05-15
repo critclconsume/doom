@@ -36,7 +36,7 @@
 <div class="admin-section">
   <div class="admin-section-header">
     <div class="admin-section-title">Laporan terbaru</div>
-    <a href="{{ route('admin.laporan.lain') }}" class="admin-section-link">Lihat semua →</a>
+    <a href="{{ route('admin.laporan.index') }}" class="admin-section-link">Lihat semua →</a>
   </div>
 
   @if($recentLaporan->isEmpty())

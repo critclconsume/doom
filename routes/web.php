@@ -17,9 +17,8 @@ Route::get('/', function () {
     return redirect()->route('beranda');
 });
 
-
 Route::get('/beranda', [PageController::class, 'beranda'])->name('beranda');
-Route::get('/proyek', [PageController::class, 'proyek'])->name('proyek');
+Route::get('/proyek',  [PageController::class, 'proyek'])->name('proyek');
 Route::get('/panduan', [PageController::class, 'panduan'])->name('panduan');
 
 // Laporan Public
@@ -28,50 +27,38 @@ Route::post('/lapor', [PageController::class, 'laporStore'])->name('lapor.store'
 
 /*
 |--------------------------------------------------------------------------
-| Admin Authentication Routes
+| Admin Routes
 |--------------------------------------------------------------------------
 */
-// Admin Fasilitas Routes
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::resource('fasilitas', Admin\FasilitasController::class)
-         ->parameters([
-             'fasilitas' => 'fasilitas'  
-         ]);
-});
-    // Login Routes (Public)
+Route::prefix('admin')->name('admin.')->group(function () {
+
+    // === LOGIN ROUTES (Public - No Auth Required) ===
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
-    // Logout
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    // === PROTECTED ADMIN ROUTES ===
+    Route::middleware('auth')->group(function () {
 
-    // Protected Admin Routes
-Route::middleware(['auth'])->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::prefix('admin')->name('admin.')->group(function () {
+        // Dashboard alternative (mod.php)
+        Route::get('/mod', function () {
+            return view('admin.mod');
+        })->name('mod');
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-        Route::resource('fasilitas', FasilitasController::class);
-        Route::resource('laporan', LaporanController::class);
-        Route::resource('pengumuman', PengumumanController::class);
-        
-    });
-});
-
-        // Laporan Admin
+        // Laporan
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::patch('/laporan/{laporan}', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
-        Route::resource('laporan', \App\Http\Controllers\Admin\LaporanController::class)
-         ->only(['index', 'show', 'destroy']);
-    
-    Route::patch('laporan/{laporan}/status', [App\Http\Controllers\Admin\LaporanController::class, 'updateStatus'])
-         ->name('admin.laporan.status');
 
         // Fasilitas
         Route::resource('fasilitas', FasilitasController::class)->except(['show']);
 
         // Pengumuman
         Route::resource('pengumuman', PengumumanController::class)->except(['show']);
+
+        // Logout
+        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    });
+});
 
 require __DIR__.'/auth.php';

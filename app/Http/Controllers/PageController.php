@@ -136,7 +136,7 @@ public function laporStore(Request $request)
     public function index()
     {
         $pengumuman = Pengumuman::latest('tanggal')->paginate(15);
-        return view('admin.pengumuman.index', compact('pengumuman'));
+        return view('admin.pengumuman.pain', compact('pengumuman'));
     }
 
     public function create()

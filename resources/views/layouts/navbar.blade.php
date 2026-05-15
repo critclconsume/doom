@@ -30,6 +30,7 @@
   <div class="nav-right">
     <a href="{{ route('lapor') }}" class="nav-cta">Laporkan Masalah</a>
 
+    {{-- Admin Login / Panel --}}
     @guest
       <a href="{{ route('admin.login') }}" class="nav-admin-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -42,7 +43,7 @@
     @endguest
 
     @auth
-      <a href="{{ route('admin.') }}" class="nav-admin-btn nav-admin-active">
+      <a href="{{ route('admin.dashboard') }}" class="nav-admin-btn nav-admin-active">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="3" width="7" height="7" rx="1"/>
           <rect x="14" y="3" width="7" height="7" rx="1"/>
