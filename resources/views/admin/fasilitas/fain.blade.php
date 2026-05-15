@@ -1,4 +1,3 @@
-
 @vite(['resources/css/style.css', 'resources/css/admin.css'])
 
 @extends('admin.layout')
@@ -59,19 +58,21 @@
             <line x1="8" y1="2" x2="8" y2="6"/>
             <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
-          {{ $f->created_at->format('d M Y') }}
+          {{ $f->created_at?->format('d M Y') }}
         </span>
       </div>
     </div>
 
     {{-- ACTIONS --}}
     <div class="fac-admin-actions">
-      <a href="{{ route('admin.fasilitas.edit', $f->id) }}"
-         class="btn-action btn-edit" style="flex:1; text-align:center;">Edit</a>
-      <form action="{{ route('admin.fasilitas.destroy', $f->id) }}" method="POST"
-            onsubmit="return confirm('Hapus fasilitas {{ addslashes($f->name) }}?')">
-        @csrf @method('DELETE')
-        <button type="submit" class="btn-action btn-delete">Hapus</button>
+      <a href="{{ route('admin.fasilitas.edit', $f->id) }}" class="btn-action">Edit</a>
+      
+      <form action="{{ route('admin.fasilitas.destroy', $f->id) }}" 
+            method="POST" 
+            onsubmit="return confirm('Yakin ingin menghapus fasilitas ini?')">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn-delete">Hapus</button>
       </form>
     </div>
 
@@ -79,10 +80,10 @@
   @endforeach
 </div>
 
+@endif
+
 <div class="pagination-wrap">
   {{ $fasilitas->links() }}
 </div>
-
-@endif
 
 @endsection

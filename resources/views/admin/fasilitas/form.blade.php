@@ -1,111 +1,88 @@
+@vite(['resources/css/style.css', 'resources/css/admin.css'])
+
 @extends('admin.layout')
-@section('title', isset($fasilitas) ? 'Edit Fasilitas' : 'Tambah Fasilitas')
+@section('title', $fasilitas ? 'Edit Fasilitas' : 'Tambah Fasilitas Baru')
 
 @section('content')
 
-<div class="form-card" style="max-width: 560px;">
-  <div class="form-head">
-    <h2>{{ isset($fasilitas) ? 'Edit Fasilitas' : 'Tambah Fasilitas Baru' }}</h2>
-    <p>{{ isset($fasilitas) ? 'Perbarui informasi fasilitas di bawah ini.' : 'Isi informasi fasilitas yang akan ditampilkan ke publik.' }}</p>
-  </div>
-
-  @if($errors->any())
-  <div class="form-errors">
-    <ul>
-      @foreach($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-  @endif
-
-  <form action="{{ isset($fasilitas) ? route('admin.fasilitas.update', $fasilitas->id) : route('admin.fasilitas.store') }}"
-        method="POST" enctype="multipart/form-data">
-    @csrf
-    @if(isset($fasilitas)) @method('PUT') @endif
-
-    {{-- NAME --}}
-    <div class="fgroup">
-      <label for="name">Nama fasilitas</label>
-      <input type="text" id="name" name="name"
-             placeholder="e.g. Puskesmas Pusat"
-             value="{{ old('name', $fasilitas->name ?? '') }}">
+<div class="admin-form-container">
+    <div class="admin-form-header">
+        <h1>{{ $fasilitas ? 'Edit Fasilitas' : 'Tambah Fasilitas Baru' }}</h1>
+        <p>{{ $fasilitas ? 'Perbarui informasi fasilitas' : 'Masukkan data fasilitas publik' }}</p>
     </div>
 
-    {{-- ADDRESS --}}
-    <div class="fgroup">
-      <label for="address">Alamat</label>
-      <input type="text" id="address" name="address"
-             placeholder="e.g. Jl. Sudirman No. 12"
-             value="{{ old('address', $fasilitas->address ?? '') }}">
-    </div>
+    <form action="{{ $action }}" method="{{ $method }}" enctype="multipart/form-data" class="admin-form">
+        @csrf
+        @if($method === 'PUT')
+            @method('PUT')
+        @endif
 
-    {{-- TYPE + STATUS row --}}
-    <div class="form-row">
-      <div class="fgroup">
-        <label for="type">Tipe fasilitas</label>
-        <select id="type" name="type">
-          @foreach(['Kesehatan','Pendidikan','Olahraga','Ruang Hijau','Transportasi','Lainnya'] as $t)
-          <option value="{{ $t }}"
-            {{ old('type', $fasilitas->type ?? '') === $t ? 'selected' : '' }}>
-            {{ $t }}
-          </option>
-          @endforeach
-        </select>
-      </div>
+        <div class="form-grid">
 
-      <div class="fgroup">
-        <label for="status">Status</label>
-        <select id="status" name="status">
-          <option value="open"        {{ old('status', $fasilitas->status ?? '') === 'open'        ? 'selected' : '' }}>Buka</option>
-          <option value="maintenance" {{ old('status', $fasilitas->status ?? '') === 'maintenance' ? 'selected' : '' }}>Renovasi</option>
-        </select>
-      </div>
-    </div>
+            <!-- Name -->
+            <div class="form-group">
+                <label for="name">Nama Fasilitas</label>
+                <input type="text" name="name" id="name" 
+                       value="{{ $fasilitas?->name }}" 
+                       required class="form-input">
+            </div>
 
-    {{-- PHOTO --}}
-    <div class="fgroup">
-      <label for="photo">Foto fasilitas</label>
+            <!-- Type -->
+            <div class="form-group">
+                <label for="type">Jenis Fasilitas</label>
+                <input type="text" name="type" id="type" 
+                       value="{{ $fasilitas?->type }}" 
+                       placeholder="Contoh: Taman, Lapangan, Gedung, dll" required class="form-input">
+            </div>
 
-      {{-- Show current photo if editing --}}
-      @if(isset($fasilitas) && $fasilitas->photo && file_exists(public_path('images/fasilitas/' . $fasilitas->photo)))
-      <div class="current-photo-wrap">
-        <img src="{{ asset('images/fasilitas/' . $fasilitas->photo) }}"
-             alt="{{ $fasilitas->name }}" class="current-photo">
-        <span class="current-photo-label">Foto saat ini</span>
-      </div>
-      @endif
+            <!-- Status -->
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select name="status" id="status" required class="form-input">
+                    <option value="open" {{ ($fasilitas?->status ?? 'open') === 'open' ? 'selected' : '' }}>Buka</option>
+                    <option value="maintenance" {{ $fasilitas?->status === 'maintenance' ? 'selected' : '' }}>Renovasi / Maintenance</option>
+                </select>
+            </div>
 
-      <label for="photo" class="upload-box">
-        <div class="upload-icon">&#128247;</div>
-        <span id="upload-label">
-          {{ isset($fasilitas) && $fasilitas->photo ? 'Klik untuk ganti foto' : 'Klik untuk unggah foto' }}
-        </span>
-        <input type="file" id="photo" name="photo"
-               accept=".jpg,.jpeg,.png,.webp"
-               style="display:none;"
-               onchange="updateLabel(this)">
-      </label>
-      <div class="fgroup-hint">Format: JPG, PNG, WEBP. Maks 5 MB.</div>
-    </div>
+            <!-- Address -->
+            <div class="form-group full-width">
+                <label for="address">Alamat / Lokasi</label>
+                <textarea name="address" id="address" rows="3" 
+                          required class="form-input">{{ $fasilitas?->address }}</textarea>
+            </div>
 
-    <div style="display:flex; gap:10px; margin-top: 8px;">
-      <button type="submit" class="form-submit" style="flex:1;">
-        {{ isset($fasilitas) ? 'Simpan Perubahan' : 'Tambah Fasilitas' }}
-      </button>
-      <a href="{{ route('admin.fasilitas.index') }}" class="btn-cancel">Batal</a>
-    </div>
+            <!-- Photo -->
+            <div class="form-group full-width">
+                <label for="photo">Foto Fasilitas 
+                    <span class="label-small">(JPG, PNG, WEBP, GIF - max 10MB)</span>
+                </label>
+                
+                @if($fasilitas?->photo)
+                <div class="current-photo">
+                    <img src="{{ asset('images/fasilitas/' . $fasilitas->photo) }}" 
+                         alt="Current Photo" class="preview-image">
+                    <p class="small">Foto saat ini</p>
+                </div>
+                @endif
 
-  </form>
+                <input type="file" name="photo" id="photo" 
+                       accept="image/jpeg,image/png,image/webp,image/gif" 
+                       class="form-input file-input">
+                <small class="help-text">Biarkan kosong jika tidak ingin mengubah foto</small>
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+            <a href="{{ route('admin.fasilitas.index') }}" class="btn-secondary">
+                Batal
+            </a>
+            <button type="submit" class="btn-primary">
+                {{ $fasilitas ? 'Simpan Perubahan' : 'Tambah Fasilitas' }}
+            </button>
+        </div>
+    </form>
 </div>
-
-<script>
-function updateLabel(input) {
-  const label = document.getElementById('upload-label');
-  if (input.files && input.files[0]) {
-    label.textContent = input.files[0].name;
-  }
-}
-</script>
 
 @endsection

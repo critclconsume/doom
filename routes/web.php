@@ -56,8 +56,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::patch('/laporan/{laporan}', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
 
-        // Fasilitas
-        Route::resource('fasilitas', FasilitasController::class)->except(['show']);
+// Replace with this (correct):
+      Route::resource('admin/fasilitas', FasilitasController::class)
+     ->except(['show'])
+     ->parameters([
+         'fasilitas' => 'fasilitas'  
+     ]);
 
         // Pengumuman
         Route::resource('pengumuman', PengumumanController::class)->except(['show']);

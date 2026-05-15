@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class FasilitasController extends Controller
 {
@@ -25,24 +26,34 @@ class FasilitasController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name'    => 'required|string|max:255',
-            'address' => 'required|string|max:500',
+            'address' => 'required|string',
             'type'    => 'required|string',
             'status'  => 'required|in:open,maintenance',
-            'photo'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'photo'   => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368', // 15MB
         ]);
 
+        $data = $request->only(['name', 'address', 'type', 'status']);
+
         if ($request->hasFile('photo')) {
-            $filename = time() . '_' . $request->file('photo')->getClientOriginalName();
-            $request->file('photo')->move(public_path('images/fasilitas'), $filename);
-            $validated['photo'] = $filename;
+            $file = $request->file('photo');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) 
+                        . '.' . $file->getClientOriginalExtension();
+
+            $path = public_path('images/fasilitas');
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+
+            $file->move($path, $filename);
+            $data['photo'] = $filename;
         }
 
-        Fasilitas::create($validated);
+        Fasilitas::create($data);
 
         return redirect()->route('admin.fasilitas.index')
-                         ->with('success', 'Fasilitas berhasil ditambahkan.');
+                         ->with('success', 'Fasilitas berhasil ditambahkan');
     }
 
     public function edit(Fasilitas $fasilitas)
@@ -56,36 +67,48 @@ class FasilitasController extends Controller
 
     public function update(Request $request, Fasilitas $fasilitas)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name'    => 'required|string|max:255',
-            'address' => 'required|string|max:500',
+            'address' => 'required|string',
             'type'    => 'required|string',
             'status'  => 'required|in:open,maintenance',
-            'photo'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'photo'   => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368', // 15MB
         ]);
 
+        $data = $request->only(['name', 'address', 'type', 'status']);
+
         if ($request->hasFile('photo')) {
-            if ($fasilitas->photo) {
-                $oldPath = public_path('images/fasilitas/' . $fasilitas->photo);
-                if (file_exists($oldPath)) unlink($oldPath);
+            // Delete old photo
+            if ($fasilitas->photo && file_exists(public_path('images/fasilitas/' . $fasilitas->photo))) {
+                unlink(public_path('images/fasilitas/' . $fasilitas->photo));
             }
 
-            $filename = time() . '_' . $request->file('photo')->getClientOriginalName();
-            $request->file('photo')->move(public_path('images/fasilitas'), $filename);
-            $validated['photo'] = $filename;
+            $file = $request->file('photo');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) 
+                        . '.' . $file->getClientOriginalExtension();
+
+            $path = public_path('images/fasilitas');
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+
+            $file->move($path, $filename);
+            $data['photo'] = $filename;
         }
 
-        $fasilitas->update($validated);
+        $fasilitas->update($data);
 
         return redirect()->route('admin.fasilitas.index')
-                         ->with('success', 'Fasilitas berhasil diperbarui.');
+                         ->with('success', 'Fasilitas berhasil diperbarui');
     }
 
     public function destroy(Fasilitas $fasilitas)
     {
         if ($fasilitas->photo) {
             $oldPath = public_path('images/fasilitas/' . $fasilitas->photo);
-            if (file_exists($oldPath)) unlink($oldPath);
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
         }
 
         $fasilitas->delete();

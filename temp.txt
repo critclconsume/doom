@@ -1,0 +1,17 @@
+pending prompt 
+
+now only a small problem, i tried to add a 2mb sized picture but it didnt work, but when i try to add a 800kb sized picture it works, i changed the size 
+
+
+    <div class="form-row">
+      <div class="fgroup">
+        <label for="type">Tipe fasilitas</label>
+        <select id="type" name="type">
+          @foreach(['Kesehatan','Pendidikan','Olahraga','Ruang Hijau','Transportasi','Lainnya'] as $t)
+          <option value="{{ $t }}"
+            {{ old('type', $fasilitas->type ?? '') === $t ? 'selected' : '' }}>
+            {{ $t }}
+          </option>
+          @endforeach
+        </select>
+      </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fasilitas;
 use App\Models\Laporan;
 use App\Models\Pengumuman;
-use App\Models\Proyek;           // ← This must exist
+use App\Models\Proyek;          
 use Illuminate\Http\Request;
 
 class PageController extends Controller

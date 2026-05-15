@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin - FasilitasKota')</title>
     
-    @vite(['resources/css/app.css', 'resources/css/admin.css'])   <!-- if using Vite -->
+    @vite(['resources/css/app.css', 'resources/css/admin.css'])  
 </head>
 <body class="admin-body">
   <aside class="sidebar">
@@ -25,7 +25,7 @@
     <nav class="sidebar-nav">
       <div class="sidebar-section-label">Menu</div>
 
-      <<a href="{{ route('admin.dashboard') }}"
+      <a href="{{ route('admin.dashboard') }}"
    class="sidebar-link {{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.mod') ? 'active' : '' }}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <rect x="3" y="3" width="7" height="7" rx="1"/>
