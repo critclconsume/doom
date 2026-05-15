@@ -30,6 +30,11 @@ Route::post('/lapor', [PageController::class, 'laporStore'])->name('lapor.store'
 | Admin Routes
 |--------------------------------------------------------------------------
 */
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
 Route::prefix('admin')->name('admin.')->group(function () {
 
     // === LOGIN ROUTES (Public - No Auth Required) ===
@@ -39,12 +44,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // === PROTECTED ADMIN ROUTES ===
     Route::middleware('auth')->group(function () {
 
+        // Dashboard (utama)
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Dashboard alternative (mod.php)
-        Route::get('/mod', function () {
-            return view('admin.mod');
-        })->name('mod');
+        // Mod Dashboard (jika ingin akses langsung /admin/mod)
+        Route::get('/mod', [DashboardController::class, 'index'])->name('mod');
 
         // Laporan
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
