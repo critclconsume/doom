@@ -33,7 +33,7 @@
   @else
   <div class="fac-grid">
     @foreach ($facilities as $f)
-    <div class="fac-card">
+    <a href="{{ route('fasilitas.show', $f->id) }}" class="fac-card">
       <div class="fac-photo">
         @if($f->photo && file_exists(public_path('images/fasilitas/' . $f->photo)))
           <img src="{{ asset('images/fasilitas/' . $f->photo) }}" alt="{{ $f->name }}">

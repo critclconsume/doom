@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\FasilitasPhoto;
 
 class FasilitasController extends Controller
 {
@@ -32,6 +33,7 @@ class FasilitasController extends Controller
             'type'    => 'required|string',
             'status'  => 'required|in:open,maintenance',
             'photo'   => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368', // 15MB
+            'photos_extra.*' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368',
         ]);
 
         $data = $request->only(['name', 'address', 'type', 'status']);
@@ -49,6 +51,22 @@ class FasilitasController extends Controller
             $file->move($path, $filename);
             $data['photo'] = $filename;
         }
+
+        // In store(), after Fasilitas::create($data):
+$fasilitas = Fasilitas::create($data);
+
+if ($request->hasFile('photos_extra')) {
+    foreach ($request->file('photos_extra') as $i => $file) {
+        $fname = time() . $i . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+                 . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/fasilitas'), $fname);
+        FasilitasPhoto::create([
+            'fasilitas_id' => $fasilitas->id,
+            'photo'        => $fname,
+            'urutan'       => $i,
+        ]);
+    }
+}
 
         Fasilitas::create($data);
 
@@ -73,6 +91,7 @@ class FasilitasController extends Controller
             'type'    => 'required|string',
             'status'  => 'required|in:open,maintenance',
             'photo'   => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368', // 15MB
+            'photos_extra.*' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368',
         ]);
 
         $data = $request->only(['name', 'address', 'type', 'status']);
@@ -95,6 +114,22 @@ class FasilitasController extends Controller
             $file->move($path, $filename);
             $data['photo'] = $filename;
         }
+
+        // In update(), after $fasilitas->update($data):
+$fasilitas->update($data);
+
+if ($request->hasFile('photos_extra')) {
+    foreach ($request->file('photos_extra') as $i => $file) {
+        $fname = time() . $i . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+                 . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/fasilitas'), $fname);
+        FasilitasPhoto::create([
+            'fasilitas_id' => $fasilitas->id,
+            'photo'        => $fname,
+            'urutan'       => $fasilitas->photos()->count(),
+        ]);
+    }
+}
 
         $fasilitas->update($data);
 

@@ -26,6 +26,8 @@ Route::get('/panduan', [PageController::class, 'panduan'])->name('panduan');
 Route::get('/lapor', [PageController::class, 'lapor'])->name('lapor');
 Route::post('/lapor', [PageController::class, 'laporStore'])->name('lapor.store');
 
+Route::get('/fasilitas/{fasilitas}', [PageController::class, 'fasilitasShow'])->name('fasilitas.show');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes

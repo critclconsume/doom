@@ -187,6 +187,14 @@ public function laporStore(Request $request)
                          ->with('success', "Pengumuman \"{$pengumuman->judul}\" berhasil diperbarui.");
     }
 
+    public function fasilitasShow(Fasilitas $fasilitas)
+{
+    $fasilitas->load('photos');
+    $photos = $fasilitas->allPhotos();
+
+    return view('pages.fasilitas-detail', compact('fasilitas', 'photos'));
+}
+
     public function destroy(Pengumuman $pengumuman)
     {
         $judul = $pengumuman->judul;
