@@ -836,3 +836,14 @@ small {
   .fdetail-wrap   { padding: 20px 16px; }
   .fdetail-name   { font-size: 20px; }
 }
+
+.fdetail-maps-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 20px;
+  background: var(--teal-600); color: var(--teal-50);
+  border-radius: var(--radius-md);
+  font-size: 14px; font-weight: 500;
+  margin-top: 6px;
+  transition: background 0.15s;
+}
+.fdetail-maps-btn:hover { background: var(--teal-700); }

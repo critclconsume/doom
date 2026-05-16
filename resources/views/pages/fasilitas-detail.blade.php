@@ -141,6 +141,18 @@
 
       <div class="fdetail-divider"></div>
 
+      {{-- LOCATION BUTTON --}}
+<a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($fasilitas->address) }}"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="fdetail-maps-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+    </svg>
+    Lihat di Google Maps
+</a>
+
       <a href="{{ route('lapor') }}" class="fdetail-lapor-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
