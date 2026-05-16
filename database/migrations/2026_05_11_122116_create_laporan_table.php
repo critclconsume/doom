@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->text('keterangan')->nullable();
             $table->string('foto')->nullable();
-            $table->enum('status', ['menunggu', 'diterima', 'selesai'])->default('menunggu');
+            $table->enum('status', ['menunggu', 'diterima', 'selesai', 'ditolak'])->default('menunggu');
             $table->timestamps();
         });
     }

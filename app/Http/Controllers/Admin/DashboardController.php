@@ -8,23 +8,32 @@ use App\Models\Laporan;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        $totalFasilitas = Fasilitas::count();
-        $fasilitasBuka = Fasilitas::where('status', 'open')->count();
-        $fasilitasRenovasi = Fasilitas::where('status', 'maintenance')->count();
+public function index()
+{
+    // Total Fasilitas
+    $totalFasilitas = \App\Models\Fasilitas::count();
+    $fasilitasBuka = \App\Models\Fasilitas::where('status', 'open')->count();
+    $fasilitasRenovasi = \App\Models\Fasilitas::where('status', 'maintenance')->count();
 
-        $totalLaporan = Laporan::count();
-        $laporanMenunggu = Laporan::where('status', 'menunggu')->count();
-        $laporanDiterima = Laporan::where('status', 'diterima')->count();
-        $laporanSelesai = Laporan::where('status', 'selesai')->count();
+    // Laporan Stats (Combined)
+    $totalLaporan = \App\Models\Laporan::count();
+    $laporanMenunggu = \App\Models\Laporan::where('status', 'menunggu')->count();
+    $laporanDiterima = \App\Models\Laporan::where('status', 'diterima')->count();
+    $laporanSelesai = \App\Models\Laporan::where('status', 'selesai')->count();
+    $laporanDitolak = \App\Models\Laporan::where('status', 'ditolak')->count();
 
-        $recentLaporan = Laporan::latest()->take(5)->get();
+    $recentLaporan = \App\Models\Laporan::latest()->take(5)->get();
 
-        return view('admin.mod', compact(
-            'totalFasilitas', 'fasilitasBuka', 'fasilitasRenovasi',
-            'totalLaporan', 'laporanMenunggu', 'laporanDiterima', 
-            'laporanSelesai', 'recentLaporan'
-        ));
-    }
+    return view('admin.mod', compact(
+        'totalFasilitas', 
+        'fasilitasBuka', 
+        'fasilitasRenovasi',
+        'totalLaporan',
+        'laporanMenunggu',
+        'laporanDiterima',
+        'laporanSelesai',
+        'laporanDitolak',
+        'recentLaporan'
+    ));
+}
 }

@@ -1,11 +1,12 @@
 @extends('admin.layout')
+
 @section('title', 'Laporan Masalah')
 
 @section('content')
 
 {{-- FILTER TABS --}}
 <div class="filter-tabs">
-  @foreach(['semua' => 'Semua', 'menunggu' => 'Menunggu', 'diterima' => 'Diterima', 'selesai' => 'Selesai'] as $val => $label)
+  @foreach(['semua' => 'Semua', 'menunggu' => 'Menunggu', 'diterima' => 'Diterima', 'selesai' => 'Selesai', 'ditolak' => 'Ditolak'] as $val => $label)
   <a href="{{ route('admin.laporan.index', ['status' => $val]) }}"
      class="filter-tab {{ request('status', 'semua') === $val ? 'active' : '' }}">
     {{ $label }}
@@ -29,7 +30,6 @@
         <th>Telepon</th>
         <th>Lokasi</th>
         <th>Deskripsi</th>
-        <th>Foto</th>
         <th>Status</th>
         <th>Tanggal</th>
         <th>Aksi</th>
@@ -38,41 +38,24 @@
     <tbody>
       @foreach($laporan as $l)
       <tr>
-        <td>{{ $l->id }}</td>
+        <td>
+          <a href="{{ route('admin.laporan.show', $l) }}" 
+             class="font-medium hover:underline text-teal-700">
+            #{{ $l->id }}
+          </a>
+        </td>
         <td>{{ $l->nama }}</td>
         <td>{{ $l->telepon }}</td>
-        <td>{{ $l->lokasi }}</td>
+        <td class="max-w-xs">{{ Str::limit($l->lokasi, 50) }}</td>
         <td class="td-truncate">{{ Str::limit($l->deskripsi, 70) }}</td>
-        <td>
-          @if($l->foto)
-            <a href="{{ Storage::url($l->foto) }}" target="_blank" class="photo-thumb-link">
-              <img src="{{ Storage::url($l->foto) }}" alt="Foto laporan" class="photo-thumb">
-            </a>
-          @else
-            <span class="text-muted">—</span>
-          @endif
-        </td>
         <td><span class="status-badge status-{{ $l->status }}">{{ ucfirst($l->status) }}</span></td>
         <td>{{ $l->created_at->format('d M Y') }}</td>
         <td>
-          <div class="action-btns">
-            {{-- Laporan Diterima --}}
-            @if($l->status === 'menunggu')
-            <form action="{{ route('admin.laporan.updateStatus', $l->id) }}" method="POST">
-              @csrf @method('PATCH')
-              <input type="hidden" name="status" value="diterima">
-              <button type="submit" class="btn-action btn-diterima">Diterima</button>
-            </form>
-            @endif
-
-            {{-- Laporan Selesai --}}
-            @if(in_array($l->status, ['menunggu','diterima']))
-            <form action="{{ route('admin.laporan.updateStatus', $l->id) }}" method="POST">
-              @csrf @method('PATCH')
-              <input type="hidden" name="status" value="selesai">
-              <button type="submit" class="btn-action btn-selesai">Selesai</button>
-            </form>
-            @endif
+          <div class="action-btns flex flex-col gap-2">
+            <a href="{{ route('admin.laporan.show', $l) }}" 
+               class="btn-action btn-detail">
+              Lihat Detail
+            </a>
           </div>
         </td>
       </tr>

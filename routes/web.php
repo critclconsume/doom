@@ -31,37 +31,33 @@ Route::post('/lapor', [PageController::class, 'laporStore'])->name('lapor.store'
 | Admin Routes
 |--------------------------------------------------------------------------
 */
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // === LOGIN ROUTES (Public - No Auth Required) ===
+    // === LOGIN ROUTES ===
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
     // === PROTECTED ADMIN ROUTES ===
     Route::middleware('auth')->group(function () {
 
-        // Dashboard (utama)
+        // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-        // Mod Dashboard (jika ingin akses langsung /admin/mod)
         Route::get('/mod', [DashboardController::class, 'index'])->name('mod');
 
-        // Laporan
-        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-        Route::patch('/laporan/{laporan}', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+        // ==================== LAPORAN ROUTES ====================
+        Route::prefix('laporan')->name('laporan.')->group(function () {
+            Route::get('/', [LaporanController::class, 'index'])->name('index');
+            Route::get('/{laporan}', [LaporanController::class, 'show'])->name('show');
+            Route::get('/{laporan}/edit', [LaporanController::class, 'edit'])->name('edit');
+            Route::patch('/{laporan}/status', [LaporanController::class, 'updateStatus'])->name('updateStatus');
+            Route::put('/{laporan}', [LaporanController::class, 'update'])->name('update');
+        });
 
-// Replace with this (correct):
-      Route::resource('admin/fasilitas', FasilitasController::class)
-     ->except(['show'])
-     ->parameters([
-         'fasilitas' => 'fasilitas'  
-     ]);
+        // Fasilitas
+        Route::resource('fasilitas', FasilitasController::class)
+             ->except(['show'])
+             ->parameters(['fasilitas' => 'fasilitas']);
 
         // Pengumuman
         Route::resource('pengumuman', PengumumanController::class)->except(['show']);

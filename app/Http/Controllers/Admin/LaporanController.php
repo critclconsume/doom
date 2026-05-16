@@ -28,11 +28,39 @@ class LaporanController extends Controller
         return view('admin.laporan.lain', compact('laporan', 'counts'));
     }
 
+    public function show(Laporan $laporan)
+    {
+        return view('admin.laporan.show', compact('laporan'));
+    }
+
+    public function edit(Laporan $laporan)
+    {
+        return view('admin.laporan.edit', compact('laporan'));
+    }
+
+    /**
+     * Update Laporan (digunakan dari halaman edit)
+     */
+    public function update(Request $request, Laporan $laporan)
+    {
+$request->validate([
+    'status' => 'required|in:menunggu,diterima,selesai,ditolak',
+]);
+
+        $laporan->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()
+            ->route('admin.laporan.show', $laporan)
+            ->with('success', 'Status laporan berhasil diperbarui.');
+    }
+
     public function updateStatus(Request $request, Laporan $laporan)
     {
         $request->validate([
-            'status' => 'required|in:menunggu,diterima,selesai',
-        ]);
+    'status' => 'required|in:menunggu,diterima,selesai,ditolak',
+]);
 
         $laporan->update(['status' => $request->status]);
 
@@ -44,7 +72,9 @@ class LaporanController extends Controller
     {
         if ($laporan->foto) {
             $path = storage_path('app/public/' . $laporan->foto);
-            if (file_exists($path)) unlink($path);
+            if (file_exists($path)) {
+                unlink($path);
+            }
         }
 
         $laporan->delete();

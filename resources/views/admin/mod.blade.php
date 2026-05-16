@@ -4,32 +4,34 @@
 @section('content')
 
 {{-- ── STATS ROW ── --}}
-<div class="dash-stats">
+<!-- Combined Laporan Detail Card (keep previous design) -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-800">Laporan Masalah</h3>
+        <a href="{{ route('admin.laporan.index') }}" class="text-teal-600 hover:text-teal-700 text-sm font-medium">
+            Lihat Semua →
+        </a>
+    </div>
 
-  <div class="dash-stat-card">
-    <div class="dash-stat-num">{{ $totalFasilitas }}</div>
-    <div class="dash-stat-label">Total Fasilitas</div>
-    <div class="dash-stat-sub">{{ $fasilitasBuka }} buka &middot; {{ $fasilitasRenovasi }} renovasi</div>
-  </div>
-
-  <div class="dash-stat-card">
-    <div class="dash-stat-num">{{ $totalLaporan }}</div>
-    <div class="dash-stat-label">Total Laporan</div>
-    <div class="dash-stat-sub">{{ $laporanDiterima }} diterima</div>
-  </div>
-
-  <div class="dash-stat-card">
-    <div class="dash-stat-num dash-stat-warn">{{ $laporanMenunggu }}</div>
-    <div class="dash-stat-label">Laporan Menunggu</div>
-    <div class="dash-stat-sub">Perlu ditindaklanjuti</div>
-  </div>
-
-  <div class="dash-stat-card">
-    <div class="dash-stat-num dash-stat-green">{{ $laporanSelesai }}</div>
-    <div class="dash-stat-label">Laporan Selesai</div>
-    <div class="dash-stat-sub">Sudah diselesaikan</div>
-  </div>
-
+    <!-- Status Breakdown -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white border border-yellow-200 rounded-2xl p-5 text-center">
+            <div class="text-3xl font-semibold text-yellow-600">{{ $laporanMenunggu }}</div>
+            <div class="text-sm text-gray-600">Menunggu</div>
+        </div>
+        <div class="bg-white border border-blue-200 rounded-2xl p-5 text-center">
+            <div class="text-3xl font-semibold text-blue-600">{{ $laporanDiterima }}</div>
+            <div class="text-sm text-gray-600">Diterima</div>
+        </div>
+        <div class="bg-white border border-green-200 rounded-2xl p-5 text-center">
+            <div class="text-3xl font-semibold text-green-600">{{ $laporanSelesai }}</div>
+            <div class="text-sm text-gray-600">Selesai</div>
+        </div>
+        <div class="bg-white border border-rose-200 rounded-2xl p-5 text-center">
+            <div class="text-3xl font-semibold text-rose-600">{{ $laporanDitolak }}</div>
+            <div class="text-sm text-gray-600">Ditolak</div>
+        </div>
+    </div>
 </div>
 
 {{-- ── RECENT LAPORAN ── --}}

@@ -635,3 +635,57 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
     text-decoration: none;
     font-weight: 500;
 }
+
+/* Status Ditolak */
+.status-badge.status-ditolak {
+    background-color: hsl(345, 100%, 94%);
+    color: #e11d48;
+}
+
+/* Lihat Detail Button */
+.btn-action.btn-detail {
+    background-color: #0f766e;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.btn-action.btn-detail:hover {
+    background-color: #0d5f5a;
+    transform: translateY(-1px);
+}
+
+/* Optional: Improve other buttons consistency */
+.btn-action {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.btn-diterima {
+    background-color: #0ea5e9;
+    color: white;
+}
+
+.btn-diterima:hover {
+    background-color: #0284c8;
+}
+
+.btn-selesai {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-selesai:hover {
+    background-color: #059669;
+}
