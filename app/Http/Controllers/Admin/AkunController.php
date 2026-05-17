@@ -59,7 +59,7 @@ class AkunController extends Controller
                          ->with('success', "Akun \"{$name}\" berhasil dihapus.");
     }
 
-    public function passwordForm()
+        public function passwordForm()
 {
     return view('admin.akun.password');
 }
@@ -85,3 +85,5 @@ public function passwordUpdate(Request $request)
                      ->with('success', 'Password berhasil diperbarui.');
 }
 }
+
+    

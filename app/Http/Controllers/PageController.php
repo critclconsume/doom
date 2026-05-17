@@ -87,7 +87,7 @@ public function laporStore(Request $request)
         'lokasi'      => 'required|string|max:255',
         'deskripsi'   => 'required|string',
         'keterangan'  => 'nullable|string',
-        'foto'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'foto'        => 'nullable|image|mimes:jpg,jpeg,png|max:15638',
     ]);
 
     $data = [
@@ -100,12 +100,15 @@ public function laporStore(Request $request)
         'status'      => 'menunggu',
     ];
 
-    // Photo Upload
-    if ($request->hasFile('foto')) {
-        $filename = time() . '_' . $request->file('foto')->getClientOriginalName();
-        $request->file('foto')->storeAs('public/laporan', $filename);
-        $data['foto'] = 'laporan/' . $filename;
+if ($request->hasFile('foto')) {
+    $filename = time() . '_' . $request->file('foto')->getClientOriginalName();
+    $path = public_path('images/laporan');
+    if (!file_exists($path)) {
+        mkdir($path, 0755, true);
     }
+    $request->file('foto')->move($path, $filename);
+    $data['foto'] = $filename;
+}
 
     \App\Models\Laporan::create($data);
 

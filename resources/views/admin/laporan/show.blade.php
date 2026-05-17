@@ -8,15 +8,24 @@
         
         <!-- Header -->
         <div class="px-8 py-6 border-b flex items-center justify-between bg-teal-50">
-            <div>
-                <h1 class="text-2xl font-semibold text-teal-800">Detail Laporan</h1>
-                <p class="text-teal-600 mt-1">ID Laporan: #{{ $laporan->id }}</p>
-            </div>
-            <a href="{{ route('admin.laporan.index') }}" 
-               class="px-5 py-2 text-sm font-medium text-teal-700 hover:bg-teal-100 rounded-lg transition">
-                ← Kembali ke Daftar
-            </a>
-        </div>
+    <div>
+        <h1 class="text-2xl font-semibold text-teal-800">Detail Laporan</h1>
+        <p class="text-teal-600 mt-1">ID Laporan: #{{ $laporan->id }}</p>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <a href="{{ route('admin.laporan.index') }}"
+           class="px-5 py-2 text-sm font-medium text-teal-700 hover:bg-teal-100 rounded-lg transition">
+            ← Kembali ke Daftar
+        </a>
+        <form action="{{ route('admin.laporan.destroy', $laporan) }}" method="POST"
+              onsubmit="return confirm('Hapus laporan dari {{ $laporan->nama }}? Tindakan ini tidak dapat dibatalkan.')">
+            @csrf @method('DELETE')
+            <button type="submit" class="btn-action btn-delete" style="padding:8px 16px; font-size:13px;">
+                Hapus Laporan
+            </button>
+        </form>
+    </div>
+</div>
 
         <div class="p-8 space-y-8">
 
@@ -81,20 +90,20 @@
                 </div>
 
                 <!-- Photo -->
-                @if($laporan->foto)
-                <div>
-                    <label class="block text-sm font-medium text-gray-500 mb-2">Foto Bukti</label>
-                    <div class="border border-gray-200 rounded-xl overflow-hidden bg-black">
-                        <img src="{{ Storage::url($laporan->foto) }}" 
-                             alt="Foto Laporan"
-                             class="w-full max-h-[520px] object-contain mx-auto">
-                    </div>
-                </div>
-                @else
-                <div class="bg-gray-100 border border-dashed border-gray-300 rounded-xl p-12 text-center">
-                    <p class="text-gray-500">Tidak ada foto yang diunggah</p>
-                </div>
-                @endif
+@if($laporan->foto)
+<div>
+    <label class="block text-sm font-medium text-gray-500 mb-2">Foto Bukti</label>
+    <div class="border border-gray-200 rounded-xl overflow-hidden bg-black">
+        <img src="{{ asset('images/laporan/' . $laporan->foto) }}"
+             alt="Foto Laporan"
+             class="w-full max-h-[520px] object-contain mx-auto">
+    </div>
+</div>
+@else
+<div class="bg-gray-100 border border-dashed border-gray-300 rounded-xl p-12 text-center">
+    <p class="text-gray-500">Tidak ada foto yang diunggah</p>
+</div>
+@endif
             </div>
         </div>
     </div>

@@ -55,6 +55,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{laporan}/edit', [LaporanController::class, 'edit'])->name('edit');
             Route::patch('/{laporan}/status', [LaporanController::class, 'updateStatus'])->name('updateStatus');
             Route::put('/{laporan}', [LaporanController::class, 'update'])->name('update');
+            Route::delete('/{laporan}', [LaporanController::class, 'destroy'])->name('destroy');
         });
 
         // Fasilitas

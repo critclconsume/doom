@@ -50,14 +50,19 @@
         <td class="td-truncate">{{ Str::limit($l->deskripsi, 70) }}</td>
         <td><span class="status-badge status-{{ $l->status }}">{{ ucfirst($l->status) }}</span></td>
         <td>{{ $l->created_at->format('d M Y') }}</td>
-        <td>
-          <div class="action-btns flex flex-col gap-2">
-            <a href="{{ route('admin.laporan.show', $l) }}" 
-               class="btn-action btn-detail">
-              Lihat Detail
-            </a>
-          </div>
-        </td>
+<td>
+  <div class="action-btns flex flex-col gap-2">
+    <a href="{{ route('admin.laporan.show', $l) }}"
+       class="btn-action btn-detail">
+      Lihat Detail
+    </a>
+    <form action="{{ route('admin.laporan.destroy', $l) }}" method="POST"
+          onsubmit="return confirm('Hapus laporan ini?')">
+      @csrf @method('DELETE')
+      <button type="submit" class="btn-action btn-delete" style="width:100%;">Hapus</button>
+    </form>
+  </div>
+</td>
       </tr>
       @endforeach
     </tbody>
