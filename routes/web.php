@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\FasilitasController;
 use App\Http\Controllers\Admin\PengumumanController;
 use App\Http\Controllers\Admin\ProyekController;
+use App\Http\Controllers\Admin\AkunController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
@@ -66,6 +67,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Proyek
         Route::resource('proyek', ProyekController::class)->except(['show']);
+
+        // Akun Admin
+Route::prefix('akun')->name('akun.')->group(function () {
+    Route::get('/',          [App\Http\Controllers\Admin\AkunController::class, 'index'])->name('index');
+    Route::get('/tambah',    [App\Http\Controllers\Admin\AkunController::class, 'create'])->name('create');
+    Route::post('/',         [App\Http\Controllers\Admin\AkunController::class, 'store'])->name('store');
+    Route::delete('/{user}', [App\Http\Controllers\Admin\AkunController::class, 'destroy'])->name('destroy');
+    Route::get('/password',  [App\Http\Controllers\Admin\AkunController::class, 'passwordForm'])->name('password');
+Route::post('/password', [App\Http\Controllers\Admin\AkunController::class, 'passwordUpdate'])->name('password.update');
+});
 
         // Logout
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
