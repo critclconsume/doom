@@ -59,8 +59,8 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
 
 /* ── Navbar ── */
 .navbar {
-  background: var(--bg-surface);
-  border-bottom: 0.5px solid var(--border);
+  background: linear-gradient(135deg, #0D0B61 0%, #1a1880 100%);
+  border-bottom: 2px solid #F5B800;
   padding: 0 28px;
   display: flex;
   align-items: center;
@@ -87,8 +87,8 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
   flex-shrink: 0;
 }
 .nav-brand-icon svg { width: 18px; height: 18px; }
-.nav-brand-name { font-size: 15px; font-weight: 500; color: var(--text-primary); line-height: 1.2; }
-.nav-brand-sub  { font-size: 11px; color: var(--text-muted); }
+.nav-brand-name { font-size: 15px; font-weight: 500; color: #ffffff; line-height: 1.2; }
+.nav-brand-sub  { font-size: 11px; color: rgba(245,184,0,0.75); }
 
 .nav-links {
   display: flex;
@@ -96,26 +96,26 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
 }
 .nav-link {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.75);
   padding: 7px 14px;
   border-radius: var(--radius-md);
   transition: background 0.15s, color 0.15s;
   white-space: nowrap;
 }
-.nav-link:hover  { background: var(--bg-subtle); color: var(--text-primary); }
-.nav-link.active { background: var(--teal-50); color: var(--teal-800); font-weight: 500; }
+.nav-link:hover  { background: rgba(255,255,255,0.1); color: #ffffff; }
+.nav-link.active { background: rgba(245,184,0,0.18); color: #F5B800; font-weight: 500; }
 
 .nav-cta {
   font-size: 13px;
   font-weight: 500;
   padding: 8px 18px;
-  background: var(--teal-600);
-  color: var(--teal-50);
+  background: #F5B800;
+  color: #0D0B61;
   border-radius: var(--radius-md);
   white-space: nowrap;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s;
 }
-.nav-cta:hover { background: var(--teal-700); }
+.nav-cta:hover { background: #ffc914; transform: translateY(-1px); }
 
 /* ── Nav right group ── */
 .nav-right {
@@ -133,26 +133,26 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
   font-weight: 500;
   padding: 7px 13px;
   border-radius: 8px;
-  color: var(--text-secondary);
-  border: 0.5px solid var(--border-med);
+  color: rgba(255,255,255,0.7);
+  border: 0.5px solid rgba(255,255,255,0.25);
   background: transparent;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: background 0.15s, color 0.15s;
   white-space: nowrap;
 }
 .nav-admin-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 .nav-admin-btn:hover {
-  background: var(--bg-subtle);
-  color: var(--text-primary);
-  border-color: var(--border-med);
+  background: rgba(255,255,255,0.1);
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.4);
 }
 .nav-admin-active {
-  background: var(--teal-50);
-  color: var(--teal-800);
-  border-color: var(--teal-100);
+  background: rgba(245,184,0,0.15);
+  color: #F5B800;
+  border-color: rgba(245,184,0,0.4);
 }
 .nav-admin-active:hover {
-  background: var(--teal-50);
-  color: var(--teal-800);
+  background: rgba(245,184,0,0.25);
+  color: #F5B800;
 }
 
 /* ── Main wrapper ── */
@@ -173,7 +173,7 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: var(--teal-50);
+  background: #FFEA6C;
   color: var(--teal-700);
   padding: 5px 14px;
   border-radius: 99px;
@@ -450,7 +450,7 @@ small {
 /* ── Shared button ── */
 .btn-primary {
   display: inline-block;
-  font-size: 14px;
+  font-size: 14px;  
   font-weight: 500;
   padding: 10px 22px;
   background: var(--teal-600);
