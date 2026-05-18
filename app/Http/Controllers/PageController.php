@@ -7,6 +7,7 @@ use App\Models\Laporan;
 use App\Models\Pengumuman;
 use App\Models\Proyek;          
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -87,27 +88,32 @@ public function laporStore(Request $request)
         'lokasi'      => 'required|string|max:255',
         'deskripsi'   => 'required|string',
         'keterangan'  => 'nullable|string',
-        'foto'        => 'nullable|image|mimes:jpg,jpeg,png|max:15638',
+        'fotos'       => 'nullable|array|max:5',
+        'fotos.*'     => 'image|mimes:jpg,jpeg,png|max:15368',
     ]);
 
     $data = [
-        'nama'        => $validated['nama'],
-        'telepon'     => $validated['telepon'],
-        'email'       => $validated['email'],
-        'lokasi'      => $validated['lokasi'],
-        'deskripsi'   => $validated['deskripsi'],
-        'keterangan'  => $validated['keterangan'] ?? null,
-        'status'      => 'menunggu',
+        'nama'       => $validated['nama'],
+        'telepon'    => $validated['telepon'],
+        'email'      => $validated['email'],
+        'lokasi'     => $validated['lokasi'],
+        'deskripsi'  => $validated['deskripsi'],
+        'keterangan' => $validated['keterangan'] ?? null,
+        'status'     => 'menunggu',
     ];
 
-if ($request->hasFile('foto')) {
-    $filename = time() . '_' . $request->file('foto')->getClientOriginalName();
+if ($request->hasFile('fotos')) {
+    $paths = [];
     $path = public_path('images/laporan');
-    if (!file_exists($path)) {
-        mkdir($path, 0755, true);
+    $dir = public_path('images/laporan');
+    if (!file_exists($dir)) mkdir($dir, 0755, true);
+
+    foreach ($request->file('fotos') as $file) {
+        $filename = time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+        $file->move($dir, $filename);
+        $paths[] = $filename;
     }
-    $request->file('foto')->move($path, $filename);
-    $data['foto'] = $filename;
+    $data['fotos'] = $paths;
 }
 
     \App\Models\Laporan::create($data);

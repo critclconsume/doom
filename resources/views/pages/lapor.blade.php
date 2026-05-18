@@ -53,11 +53,11 @@
                 <textarea name="keterangan" rows="3" placeholder="Contoh: Lampu jalan mati total, bangku rusak parah, dll">{{ old('keterangan') }}</textarea>
             </div>
 
-            <div class="form-group">
-                <label>Foto Bukti <span class="optional">(Sangat dianjurkan)</span></label>
-                <input type="file" name="foto" accept="image/*" class="file-input">
-                <small>Pilih foto dari galeri atau kamera perangkat Anda</small>
-            </div>
+<div class="form-group">
+    <label>Foto Bukti <span class="optional">(Sangat dianjurkan)</span></label>
+    <input type="file" name="fotos[]" accept="image/*" multiple class="file-input">
+    <small>Pilih satu atau beberapa foto (maks. 5 foto, masing-masing 2MB)</small>
+</div>
 
             <div class="form-actions">
                 <button type="submit" class="btn-submit">

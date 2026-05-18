@@ -68,18 +68,25 @@ $request->validate([
                          ->with('success', 'Status laporan berhasil diperbarui.');
     }
 
-    public function destroy(Laporan $laporan)
-    {
-        if ($laporan->foto) {
-            $path = storage_path('app/public/' . $laporan->foto);
-            if (file_exists($path)) {
-                unlink($path);
-            }
+public function destroy(Laporan $laporan)
+{
+    // Delete new-style photos (public/images/laporan/)
+    if ($laporan->fotos) {
+        foreach ($laporan->fotos as $filename) {
+            $path = public_path('images/laporan/' . $filename);
+            if (file_exists($path)) unlink($path);
         }
-
-        $laporan->delete();
-
-        return redirect()->route('admin.laporan.index')
-                         ->with('success', 'Laporan berhasil dihapus.');
     }
+
+    // Delete old single photo (storage)
+    if ($laporan->foto) {
+        $path = storage_path('app/public/' . $laporan->foto);
+        if (file_exists($path)) unlink($path);
+    }
+
+    $laporan->delete();
+
+    return redirect()->route('admin.laporan.index')
+                     ->with('success', 'Laporan berhasil dihapus.');
+}
 }

@@ -9,12 +9,16 @@ class Laporan extends Model
     protected $table = 'laporan';
 
     protected $fillable = [
-        'nama', 'telepon', 'lokasi', 'deskripsi', 'foto', 'status'
+        'nama', 'telepon','email', 'lokasi', 'deskripsi', 'keterangan', 'foto', 'fotos', 'status'
     ];
 
     protected $attributes = [
         'status' => 'menunggu',
     ];
+
+    protected $casts = [
+    'fotos' => 'array',
+];
 
     // Add this
     public const STATUS = [
