@@ -6,10 +6,10 @@
 <section class="hero">
   <div class="hero-pill">
     <div class="hero-dot"></div>
-    Informasi Fasilitas Publik
+    Sistem Informasi Fasilitas Umum (SIFU)
   </div>
   <h1>Fasilitas kota yang <span class="hero-accent">terbuka</span> untuk semua warga</h1>
-  <p>Temukan informasi lengkap tentang fasilitas publik di kota Anda — jam operasional, kondisi terkini, dan proyek pembangunan yang sedang berjalan.</p>
+  <p>Temukan informasi lengkap tentang fasilitas publik di kota Tomohon —  kondisi terkini, dan proyek pembangunan yang sedang berjalan.</p>
 </section>
 
 <!-- INFO STRIP (real stats from DB) -->

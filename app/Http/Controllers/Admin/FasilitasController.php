@@ -28,11 +28,11 @@ class FasilitasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'    => 'required|string|max:255',
-            'address' => 'required|string',
-            'type'    => 'required|string',
-            'status'  => 'required|in:open,maintenance',
-            'photo'   => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368', // 15MB
+            'name'           => 'required|string|max:255',
+            'address'        => 'required|string',
+            'type'           => 'required|string',
+            'status'         => 'required|in:open,maintenance',
+            'photo'          => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368',
             'photos_extra.*' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368',
         ]);
 
@@ -40,35 +40,30 @@ class FasilitasController extends Controller
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) 
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
                         . '.' . $file->getClientOriginalExtension();
 
             $path = public_path('images/fasilitas');
-            if (!file_exists($path)) {
-                mkdir($path, 0755, true);
-            }
+            if (!file_exists($path)) mkdir($path, 0755, true);
 
             $file->move($path, $filename);
             $data['photo'] = $filename;
         }
 
-        // In store(), after Fasilitas::create($data):
-$fasilitas = Fasilitas::create($data);
+        $fasilitas = Fasilitas::create($data);
 
-if ($request->hasFile('photos_extra')) {
-    foreach ($request->file('photos_extra') as $i => $file) {
-        $fname = time() . $i . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-                 . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('images/fasilitas'), $fname);
-        FasilitasPhoto::create([
-            'fasilitas_id' => $fasilitas->id,
-            'photo'        => $fname,
-            'urutan'       => $i,
-        ]);
-    }
-}
-
-        Fasilitas::create($data);
+        if ($request->hasFile('photos_extra')) {
+            foreach ($request->file('photos_extra') as $i => $file) {
+                $fname = time() . $i . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+                         . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/fasilitas'), $fname);
+                FasilitasPhoto::create([
+                    'fasilitas_id' => $fasilitas->id,
+                    'photo'        => $fname,
+                    'urutan'       => $i,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.fasilitas.index')
                          ->with('success', 'Fasilitas berhasil ditambahkan');
@@ -86,52 +81,46 @@ if ($request->hasFile('photos_extra')) {
     public function update(Request $request, Fasilitas $fasilitas)
     {
         $request->validate([
-            'name'    => 'required|string|max:255',
-            'address' => 'required|string',
-            'type'    => 'required|string',
-            'status'  => 'required|in:open,maintenance',
-            'photo'   => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368', // 15MB
+            'name'           => 'required|string|max:255',
+            'address'        => 'required|string',
+            'type'           => 'required|string',
+            'status'         => 'required|in:open,maintenance',
+            'photo'          => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368',
             'photos_extra.*' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:15368',
         ]);
 
         $data = $request->only(['name', 'address', 'type', 'status']);
 
         if ($request->hasFile('photo')) {
-            // Delete old photo
             if ($fasilitas->photo && file_exists(public_path('images/fasilitas/' . $fasilitas->photo))) {
                 unlink(public_path('images/fasilitas/' . $fasilitas->photo));
             }
 
             $file = $request->file('photo');
-            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) 
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
                         . '.' . $file->getClientOriginalExtension();
 
             $path = public_path('images/fasilitas');
-            if (!file_exists($path)) {
-                mkdir($path, 0755, true);
-            }
+            if (!file_exists($path)) mkdir($path, 0755, true);
 
             $file->move($path, $filename);
             $data['photo'] = $filename;
         }
 
-        // In update(), after $fasilitas->update($data):
-$fasilitas->update($data);
-
-if ($request->hasFile('photos_extra')) {
-    foreach ($request->file('photos_extra') as $i => $file) {
-        $fname = time() . $i . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-                 . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('images/fasilitas'), $fname);
-        FasilitasPhoto::create([
-            'fasilitas_id' => $fasilitas->id,
-            'photo'        => $fname,
-            'urutan'       => $fasilitas->photos()->count(),
-        ]);
-    }
-}
-
         $fasilitas->update($data);
+
+        if ($request->hasFile('photos_extra')) {
+            foreach ($request->file('photos_extra') as $i => $file) {
+                $fname = time() . $i . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+                         . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/fasilitas'), $fname);
+                FasilitasPhoto::create([
+                    'fasilitas_id' => $fasilitas->id,
+                    'photo'        => $fname,
+                    'urutan'       => $fasilitas->photos()->count(),
+                ]);
+            }
+        }
 
         return redirect()->route('admin.fasilitas.index')
                          ->with('success', 'Fasilitas berhasil diperbarui');
@@ -141,9 +130,12 @@ if ($request->hasFile('photos_extra')) {
     {
         if ($fasilitas->photo) {
             $oldPath = public_path('images/fasilitas/' . $fasilitas->photo);
-            if (file_exists($oldPath)) {
-                unlink($oldPath);
-            }
+            if (file_exists($oldPath)) unlink($oldPath);
+        }
+
+        foreach ($fasilitas->photos as $p) {
+            $oldPath = public_path('images/fasilitas/' . $p->photo);
+            if (file_exists($oldPath)) unlink($oldPath);
         }
 
         $fasilitas->delete();

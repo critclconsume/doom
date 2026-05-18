@@ -67,16 +67,20 @@
             <!-- Report Information -->
             <div class="space-y-6">
 
-                <div class="grid grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-500 mb-1">Nama Pelapor</label>
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">{{ $laporan->nama }}</div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-500 mb-1">Nomor Telepon</label>
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">{{ $laporan->telepon }}</div>
-                    </div>
-                </div>
+<div class="grid grid-cols-2 gap-6">
+    <div>
+        <label class="block text-sm font-medium text-gray-500 mb-1">Nama Pelapor</label>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">{{ $laporan->nama }}</div>
+    </div>
+    <div>
+        <label class="block text-sm font-medium text-gray-500 mb-1">Nomor Telepon</label>
+        <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">{{ $laporan->telepon }}</div>
+    </div>
+</div>
+<div>
+    <label class="block text-sm font-medium text-gray-500 mb-1">Email Pelapor</label>
+    <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">{{ $laporan->email ?? '—' }}</div>
+</div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-500 mb-1">Lokasi</label>
@@ -110,13 +114,13 @@
                         Foto Bukti ({{ $allFotos->count() }} foto)
                     </label>
                     <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px;">
-                        @foreach($allFotos as $foto)
-                        <div class="border border-gray-200 rounded-xl overflow-hidden bg-black">
-        <img src="{{ asset('images/laporan/' . $laporan->foto) }}"
-             alt="Foto Laporan"
-             class="w-full max-h-[520px] object-contain mx-auto">
-                        </div>
-                        @endforeach
+@foreach($allFotos as $foto)
+<div class="border border-gray-200 rounded-xl overflow-hidden bg-black">
+    <img src="{{ asset('images/laporan/' . $foto) }}"
+         alt="Foto Laporan"
+         class="w-full max-h-[520px] object-contain mx-auto">
+</div>
+@endforeach
                     </div>
                 </div>
                 @else

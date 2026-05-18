@@ -7,8 +7,8 @@
       </svg>
     </div>
     <div>
-      <div class="nav-brand-name">FasilitasKota</div>
-      <div class="nav-brand-sub">Dinas Pekerjaan Umum</div>
+      <div class="nav-brand-name">Sistem Informasi Fasilitas Umum (SIFU)</div>
+      <div class="nav-brand-sub">Dinas PUPR Kota Tomohon</div>
     </div>
   </a>
 

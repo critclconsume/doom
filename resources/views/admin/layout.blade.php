@@ -17,7 +17,7 @@
         </svg>
       </div>
       <div>
-        <div class="sidebar-brand-name">FasilitasKota</div>
+        <div class="sidebar-brand-name">Sistem Informasi Fasilitas Umum (SIFU)</div>
         <div class="sidebar-brand-sub">Panel Admin</div>
       </div>
     </div>
