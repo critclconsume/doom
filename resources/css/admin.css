@@ -15,7 +15,7 @@
 :root {
   --teal-50:  #E1F5EE;
   --teal-100: #9FE1CB;
-  --teal-600: #1D9E75;
+  --teal-600: #1d359e;
   --teal-700: #0F6E56;
   --teal-800: #085041;
 
@@ -286,14 +286,14 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
   min-height: 100vh;
 }
 .admin-topbar {
-  background: var(--bg-surface);
-  border-bottom: 0.5px solid var(--border);
+  background: linear-gradient(135deg, #0D0B61 0%, #1a1880 100%);
+  border-bottom: 2px solid #F5B800;
   padding: 0 28px;
   height: 52px;
   display: flex; align-items: center;
   position: sticky; top: 0; z-index: 10;
 }
-.admin-topbar-title { font-size: 15px; font-weight: 500; color: var(--text-primary); }
+.admin-topbar-title { font-size: 15px; font-weight: 500; color: #ffffff; }
 
 .admin-page { padding: 28px; }
 
@@ -613,18 +613,18 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
     justify-content: flex-end;
 }
 
+/* btn-primary */
 .btn-primary {
-    background: var(--teal-600);
-    color: white;
-    padding: 12px 28px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
+  background: #0D0B61;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
 }
-
 .btn-primary:hover {
-    background: var(--teal-700);
+  background: #1a1880;
 }
 
 .btn-secondary {
@@ -644,19 +644,18 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
 
 /* Lihat Detail Button */
 .btn-action.btn-detail {
-    background-color: #0f766e;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    transition: all 0.2s;
+  background-color: #0D0B61;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s;
 }
-
 .btn-action.btn-detail:hover {
-    background-color: #0d5f5a;
-    transform: translateY(-1px);
+  background-color: #1a1880;
+  transform: translateY(-1px);
 }
 
 /* Optional: Improve other buttons consistency */
@@ -673,21 +672,20 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
 }
 
 .btn-diterima {
-    background-color: #0ea5e9;
-    color: white;
+  background-color: #0D0B61;
+  color: white;
 }
-
 .btn-diterima:hover {
-    background-color: #0284c8;
+  background-color: #1a1880;
 }
 
+/* btn-selesai */
 .btn-selesai {
-    background-color: #10b981;
-    color: white;
+  background-color: #0D0B61;
+  color: white;
 }
-
 .btn-selesai:hover {
-    background-color: #059669;
+  background-color: #1a1880;
 }
 
 /* ── Dashboard category blocks ── */
@@ -792,19 +790,114 @@ code { font-family: monospace; font-size: 12px; background: var(--bg-subtle); pa
   border: 0.5px solid var(--teal-100);
 }
   
-/* ── Sidebar password link ── */
+/* ── Sidebar ── */
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #0D0B61 0%, #1a1880 100%);
+  border-right: 2px solid #F5B800;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 50;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px;
+  border-bottom: 1px solid rgba(245,184,0,0.3);
+}
+.sidebar-brand-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(245,184,0,0.2);
+  border: 1px solid rgba(245,184,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar-brand-icon svg { width: 18px; height: 18px; stroke: #F5B800; }
+.sidebar-brand-name { font-size: 14px; font-weight: 500; color: #ffffff; line-height: 1.2; }
+.sidebar-brand-sub  { font-size: 11px; color: rgba(245,184,0,0.75); }
+
+.sidebar-nav { flex: 1; padding: 14px 10px; overflow-y: auto; }
+.sidebar-section-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(255,255,255,0.35);
+  padding: 0 8px; margin-bottom: 6px;
+}
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: rgba(255,255,255,0.7);
+  padding: 9px 10px; border-radius: 8px;
+  margin-bottom: 2px;
+  transition: background 0.15s, color 0.15s;
+  position: relative;
+}
+.sidebar-link svg { width: 16px; height: 16px; flex-shrink: 0; stroke: rgba(255,255,255,0.6); }
+.sidebar-link:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
+.sidebar-link:hover svg { stroke: #ffffff; }
+.sidebar-link.active { background: rgba(245,184,0,0.18); color: #F5B800; font-weight: 500; }
+.sidebar-link.active svg { stroke: #F5B800; }
+
+.sidebar-badge {
+  margin-left: auto;
+  background: #ef4444; color: #fff;
+  font-size: 10px; font-weight: 600;
+  padding: 1px 6px; border-radius: 99px;
+  min-width: 18px; text-align: center;
+}
+
+.sidebar-footer {
+  border-top: 1px solid rgba(245,184,0,0.3);
+  padding: 14px 16px;
+}
+.sidebar-user { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.sidebar-user-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(245,184,0,0.2);
+  color: #F5B800;
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(245,184,0,0.4);
+}
+.sidebar-user-name { font-size: 13px; font-weight: 500; color: #ffffff; }
+.sidebar-user-role { font-size: 11px; color: rgba(255,255,255,0.45); }
+.sidebar-logout {
+  font-size: 12px; color: rgba(255,255,255,0.6);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px; padding: 5px 12px; cursor: pointer; width: 100%;
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar-logout:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
+
 .sidebar-password-link {
   display: flex;
   align-items: center;
   gap: 7px;
   font-size: 12px;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.35);
   padding: 6px 4px;
   margin-bottom: 6px;
   border-radius: 6px;
   transition: color 0.15s, background 0.15s;
 }
 .sidebar-password-link:hover {
-  color: var(--text-primary);
-  background: var(--bg-subtle);
+  color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.08);
 }
+
+/* ── Override Tailwind teal → dark blue ── */
+.bg-teal-600,
+.bg-teal-50 { background-color: #eeeef8 !important; }
+.bg-teal-600 { background-color: #0D0B61 !important; }
+.hover\:bg-teal-700:hover { background-color: #1a1880 !important; }
+.hover\:bg-teal-100:hover { background-color: rgba(13,11,97,0.08) !important; }
+.text-teal-800 { color: #0D0B61 !important; }
+.text-teal-700 { color: #0D0B61 !important; }
+.text-teal-600 { color: #1a1880 !important; }
