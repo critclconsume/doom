@@ -132,7 +132,7 @@ if ($request->hasFile('fotos')) {
         ];
 
         $adminSteps = [
-            ['title' => 'Login ke panel admin',    'body' => 'Akses halaman admin melalui <code>/admin</code> menggunakan akun yang telah diberikan oleh administrator sistem.'],
+            ['title' => 'Login ke panel admin',    'body' => 'Akses halaman admin melalui tombol <code>Login-Admin</code> dan login menggunakan akun yang telah diberikan oleh administrator sistem.'],
             ['title' => 'Perbarui konten website', 'body' => 'Edit data fasilitas, tambahkan foto, perbarui status, atau tambahkan pengumuman baru sesuai kebutuhan.'],
             ['title' => 'Publikasikan perubahan',  'body' => 'Simpan perubahan melalui panel admin dan data akan langsung tampil di website secara real-time.'],
         ];

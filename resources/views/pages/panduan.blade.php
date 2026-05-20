@@ -21,7 +21,7 @@ $warga_steps = [
 $admin_steps = [
     [
         'title' => 'Login ke WordPress Admin',
-        'body'  => 'Akses halaman admin melalui <code>/wp-admin</code> menggunakan akun yang telah diberikan oleh administrator sistem.',
+        'body'  => 'Akses halaman admin melalui tombol <code>login-admin</code>dengan menggunakan akun yang telah diberikan oleh administrator sistem.',
     ],
     [
         'title' => 'Perbarui konten website',
@@ -31,7 +31,7 @@ $admin_steps = [
         'title' => 'Publikasikan perubahan',
         'body'  => 'Klik tombol Publish atau Update di WordPress untuk menyimpan dan menayangkan perubahan ke publik secara langsung.',
     ],
-];
+];  
 ?>
 
 
@@ -45,7 +45,7 @@ $admin_steps = [
   <div class="panduan-intro">
     <div class="section-title" style="font-size:17px;">Buku Panduan Penggunaan</div>
     @vite(['resources/css/style.css'])
-    <p>Panduan lengkap cara menggunakan website FasilitasKota untuk warga dan petugas dinas.</p>
+    <p>Panduan lengkap cara menggunakan website untuk warga dan petugas dinas.</p>
   </div>
 
   {{-- FOR WARGA --}}
@@ -76,8 +76,18 @@ $admin_steps = [
 
   <div class="panduan-note">
     <strong>Catatan:</strong> Jika ada kendala teknis saat mengakses admin atau mengirim laporan,
-    hubungi tim IT dinas melalui email atau nomor telepon yang tertera di halaman Kontak.
+    hubungi : email clovehase@gmail.com.
   </div>
+  <div style="text-align:center; margin-top: 24px; font-size:13px; color:var(--text-secondary);">
+  Untuk panduan selengkapnya —
+  <a href="{{ asset('docs/panduan-sifu.pdf') }}"
+     target="_blank"
+     rel="noopener noreferrer"
+     style="color:#F5B800; font-weight:500; text-decoration:underline; text-underline-offset:3px;">
+    klik disini
+  </a>
 </div>
+</div>
+
 
 @endsection

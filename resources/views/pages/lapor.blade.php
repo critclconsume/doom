@@ -40,7 +40,7 @@
 
             <div class="form-group">
                 <label>Lokasi Fasilitas <span class="required">*</span></label>
-                <input type="text" name="lokasi" value="{{ old('lokasi') }}" placeholder="Contoh: Taman Kota, Jl. Sudirman No.45" required>
+                <input type="text" name="lokasi" value="{{ old('lokasi', request('lokasi')) }}" placeholder="Contoh: Taman Kota, Jl. Sudirman No.45" required>
             </div>
 
             <div class="form-group">
